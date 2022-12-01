@@ -1,17 +1,42 @@
-﻿using System;
+﻿using AdventOfCode.Reader;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace AdventOfCode.Y2022
 {
-    internal class Day01
+    /// <summary>
+    /// https://adventofcode.com/2022/day/1
+    /// </summary>
+    internal class Day01 : IAocDay<long>
     {
+        private readonly IInputProvider inputProvider;
+
+        public Day01(IInputProvider inputProvider)
+        {
+            this.inputProvider = inputProvider;
+        }
+
+        public long Part1()
+        {
+            return GetCaloriesPerElf().Max();
+        }
+
+        public long Part2()
+        {
+            return GetCaloriesPerElf()
+                .OrderByDescending(x => x)
+                .Take(3)
+                .Sum();
+        }
+
         private IEnumerable<long> GetCaloriesPerElf()
         {
+            var lines = ParseInput();
             var calories = new List<long>();
-            var lines = File.ReadAllLines("Y2022/input01.txt");
             var current = 0;
 
             foreach (var line in lines)
@@ -29,17 +54,11 @@ namespace AdventOfCode.Y2022
             return calories;
         }
 
-        public long Part1()
+        private IEnumerable<string> ParseInput()
         {
-            return GetCaloriesPerElf().Max();
+            var input = inputProvider.GetInput();
+            return Regex.Split(input, "\r\n|\r|\n");
         }
 
-        public long Part2()
-        {
-            return GetCaloriesPerElf()
-                .OrderByDescending(x => x)
-                .Take(3)
-                .Sum();
-        }
     }
 }
