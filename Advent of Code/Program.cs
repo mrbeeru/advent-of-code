@@ -5,10 +5,10 @@ using CommandLine;
 using System.Reflection;
 
 
-Parser.Default.ParseArguments<Options>(args).WithParsed((opt) => Initialize(opt));
+Parser.Default.ParseArguments<Options>(args).WithParsed((opt) => Invoke(opt));
 
 
-void Initialize(Options opt)
+void Invoke(Options opt)
 {
     if (opt.Part != 1 && opt.Part != 2)
         throw new Exception("Part can be 1 or 2");
