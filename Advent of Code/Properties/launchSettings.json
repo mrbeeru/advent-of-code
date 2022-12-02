@@ -2,7 +2,7 @@
   "profiles": {
     "AdventOfCode": {
       "commandName": "Project",
-      "commandLineArgs": "-d 1 -y 2022 -p 1 --filepath \"Y2022/input01.txt\""
+      "commandLineArgs": "-d 2 -y 2022 -p 2 --filepath \"Y2022/input02.txt\""
     }
   }
 }
