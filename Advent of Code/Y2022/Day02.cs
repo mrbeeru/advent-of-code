@@ -15,6 +15,15 @@ namespace AdventOfCode.Y2022
     {
         private readonly IInputProvider inputProvider;
 
+        private const int WIN = 6;
+        private const int DRAW = 3;
+        private const int LOSE = 0;
+
+        private const int PICK_ROCK = 1;
+        private const int PICK_PAPER = 2;
+        private const int PICK_SCISSORS = 3;
+
+
         public Day02(IInputProvider inputProvider)
         {
             this.inputProvider = inputProvider;
@@ -23,45 +32,38 @@ namespace AdventOfCode.Y2022
         public long Part1()
         {
             var input = ParseInput();
-            return input.Select(x => GetScorePart1(x)).Sum();
+            return input.Select(x => Evaluate(Decrypt1(x))).Sum();
         }
 
         public long Part2()
         {
             var input = ParseInput();
-            return input.Select(x => GetScorePart2(x)).Sum();
+            return input.Select(x => Evaluate(Decrypt2(x))).Sum();
         }
 
-        private int GetScorePart1(string round)
+        private string Decrypt1(string round)
+        {
+            return round[0] + " " + (char)(round[2] - ('X' - 'A'));
+        }
+
+        private string Decrypt2(string round)
+        {
+            return round[0] + " " + (char)('A' + (round[0] - 'A' + round[2] - 'X' + 2) % 3);
+        }
+
+        private int Evaluate(string round)
         {
             return round switch
             {
-                "A X" => 1 + 3,
-                "A Y" => 2 + 6, 
-                "A Z" => 3 + 0,
-                "B X" => 1 + 0,
-                "B Y" => 2 + 3,
-                "B Z" => 3 + 6,
-                "C X" => 1 + 6,
-                "C Y" => 2 + 0,
-                "C Z" => 3 + 3,
-                _ => throw new Exception("Invalid input.")
-            };
-        }
-
-        private int GetScorePart2(string round)
-        {
-            return round switch
-            {
-                "A X" => 3 + 0,
-                "A Y" => 1 + 3,
-                "A Z" => 2 + 6,
-                "B X" => 1 + 0,
-                "B Y" => 2 + 3,
-                "B Z" => 3 + 6,
-                "C X" => 2 + 0,
-                "C Y" => 3 + 3,
-                "C Z" => 1 + 6,
+                "A A" => PICK_ROCK      + DRAW,
+                "A B" => PICK_PAPER     + WIN,
+                "A C" => PICK_SCISSORS  + LOSE,
+                "B A" => PICK_ROCK      + LOSE,
+                "B B" => PICK_PAPER     + DRAW,
+                "B C" => PICK_SCISSORS  + WIN,
+                "C A" => PICK_ROCK      + WIN,
+                "C B" => PICK_PAPER     + LOSE,
+                "C C" => PICK_SCISSORS  + DRAW,
                 _ => throw new Exception("Invalid input.")
             };
         }
