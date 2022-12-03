@@ -35,7 +35,7 @@ namespace AdventOfCode.Y2022
 
         private IEnumerable<long> GetCaloriesPerElf()
         {
-            var lines = ParseInput();
+            var lines = inputProvider.GetInput();
             var calories = new List<long>();
             var current = 0;
 
@@ -52,12 +52,6 @@ namespace AdventOfCode.Y2022
             }
 
             return calories;
-        }
-
-        private IEnumerable<string> ParseInput()
-        {
-            var input = inputProvider.GetInput();
-            return Regex.Split(input, "\r\n|\r|\n");
         }
 
     }

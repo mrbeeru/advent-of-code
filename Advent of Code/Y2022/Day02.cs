@@ -31,13 +31,13 @@ namespace AdventOfCode.Y2022
 
         public long Part1()
         {
-            var input = ParseInput();
+            var input = inputProvider.GetInput();
             return input.Select(x => Evaluate(Decrypt1(x))).Sum();
         }
 
         public long Part2()
         {
-            var input = ParseInput();
+            var input = inputProvider.GetInput();
             return input.Select(x => Evaluate(Decrypt2(x))).Sum();
         }
 
@@ -68,10 +68,5 @@ namespace AdventOfCode.Y2022
             };
         }
 
-        private IEnumerable<string> ParseInput()
-        {
-            var input = inputProvider.GetInput();
-            return Regex.Split(input, "\r\n|\r|\n");
-        }
     }
 }
