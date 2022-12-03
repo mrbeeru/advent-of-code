@@ -19,7 +19,7 @@ namespace AdventOfCode
         [Option('p', "part", Required = true, HelpText = "Advent of Code part.")]
         public int Part { get; set; }
 
-        [Option("filepath", Required = true, HelpText = "Advent of Code input from file.")]
+        [Option("filepath", Required = false, HelpText = "Advent of Code input from file.")]
         public string FilePath { get; set; }
     }
 }

@@ -10,7 +10,7 @@ Parser.Default.ParseArguments<Options>(args).WithParsed((opt) => Invoke(opt));
 
 void Invoke(Options opt)
 {
-    var fileInputReader = new FileInputReader(opt.FilePath);
+    var fileInputReader = new FileInputReader(opt.FilePath ?? $"Y{opt.Year}/input{opt.Day:00}.txt");
     var (instance, method) = Resolver.Resolve(opt.Year, opt.Day, opt.Part, fileInputReader);
     var result = method.Invoke(instance, null);
 
