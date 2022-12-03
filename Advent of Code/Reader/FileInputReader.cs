@@ -15,9 +15,9 @@ namespace AdventOfCode.Reader
             this.filePath = filePath;
         }
 
-        public string GetInput()
+        public IEnumerable<string> GetInput()
         {
-            return File.ReadAllText(filePath);
+            return File.ReadAllLines(filePath);
         }
     }
 }

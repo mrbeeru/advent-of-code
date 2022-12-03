@@ -8,6 +8,6 @@ namespace AdventOfCode.Reader
 {
     internal interface IInputProvider
     {
-        string GetInput();
+        IEnumerable<string> GetInput();
     }
 }
