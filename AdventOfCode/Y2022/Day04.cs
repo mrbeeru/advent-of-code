@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode.Y2022
 {
+    /// <summary>
+    /// https://adventofcode.com/2022/day/4
+    /// </summary>
     internal class Day04 : IAocDay<long>
     {
         private readonly IInputProvider inputProvider;
