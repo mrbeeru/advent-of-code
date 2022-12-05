@@ -1,6 +1,9 @@
-﻿using AdventOfCode.Reader;
+﻿using AdventOfCode.Quizzes;
+using AdventOfCode.Reader;
+using MoreLinq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -20,7 +23,7 @@ namespace AdventOfCode
 
             var cls = Assembly.GetExecutingAssembly()
                 .GetTypes()
-                .Single(x => x.FullName == $"AdventOfCode.Y{year}.Day{day:00}");
+                .Single(x => x.FullName == $"AdventOfCode.Quizzes.Y{year}.Day{day:00}");
 
             if (cls == null)
                 throw new Exception($"AOC {year}-{day:00} is not implemented.");
@@ -33,6 +36,45 @@ namespace AdventOfCode
             var instance = Activator.CreateInstance(cls, new object[] { provider });
 
             return (instance, method);
+        }
+
+        public static void DisplayAvailableQuizzes()
+        {
+            var hints = new List<(string year, string day, bool part1, bool part2)>();
+            var quizzes = Assembly.GetExecutingAssembly().GetTypes().Where(c => (typeof(IQuiz).IsAssignableFrom(c) && c.IsClass));
+
+            foreach (var quiz in quizzes)
+            {
+                var year = quiz.FullName[22..26];
+                var day = quiz.FullName[30..32].TrimStart('0');
+
+                var interfaces = quiz.GetInterfaces();
+
+                var part1 = interfaces.Where(x => x.FullName.Contains("IQuizPartOne")).Any();
+                var part2 = interfaces.Where(x => x.FullName.Contains("IQuizPartTwo")).Any();
+
+                hints.Add((year, day, part1, part2));
+            }
+
+            var groupedByYears = hints.GroupBy(x => x.year);
+            string result = "";
+
+            foreach (var year in groupedByYears)
+            {
+                result += Environment.NewLine + year.Key + Environment.NewLine;
+
+                foreach (var tuple in year)
+                {
+                    result += "    Day " + tuple.day + " - " + (tuple.part1 ? "Part 1 " : "") + (tuple.part2 ? "Part 2" : "");
+                    result += Environment.NewLine;
+                }
+            }
+
+            Console.WriteLine(
+                Environment.NewLine +
+                "Available quizzes" + Environment.NewLine  +
+                "-----------------" + Environment.NewLine  +
+                result);
         }
     }
 }

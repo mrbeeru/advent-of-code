@@ -8,18 +8,24 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode
 {
+    [Verb("run", HelpText = "Runs the specified quizz.")]
     internal class Options
     {
-        [Option('y', "year", Required = true, HelpText = "Advent of Code year.")]
+        [Option('y', "year", Required = true, HelpText = "Advent of Code year.", SetName = "grp")]
         public int Year { get; set; }
 
-        [Option('d', "day", Required = true, HelpText = "Advent of Code day.")]
+        [Option('d', "day", Required = true, HelpText = "Advent of Code day.", SetName = "grp")]
         public int Day { get; set; }
 
-        [Option('p', "part", Required = true, HelpText = "Advent of Code part.")]
+        [Option('p', "part", Required = true, HelpText = "Advent of Code part.", SetName = "grp")]
         public int Part { get; set; }
 
-        [Option("filepath", Required = false, HelpText = "Advent of Code input from file.")]
+        [Option("filepath", Required = false, HelpText = "Advent of Code input from file.", SetName = "grp")]
         public string FilePath { get; set; }
+    }
+
+    [Verb("ls", HelpText = "Displays a list of all available quizzes.")]
+    internal class ShowVerb
+    {
     }
 }

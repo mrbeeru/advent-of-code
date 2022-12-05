@@ -6,12 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdventOfCode.Y2022
+namespace AdventOfCode.Quizzes.Y2022
 {
     /// <summary>
     /// https://adventofcode.com/2022/day/4
     /// </summary>
-    internal class Day04 : IAocDay<long>
+    internal class Day04 : IQuizPartOne<long>, IQuizPartTwo<long>
     {
         private readonly IInputProvider inputProvider;
 

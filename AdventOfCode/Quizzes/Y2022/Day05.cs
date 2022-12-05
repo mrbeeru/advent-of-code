@@ -8,12 +8,12 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace AdventOfCode.Y2022
+namespace AdventOfCode.Quizzes.Y2022
 {
     /// <summary>
     /// https://adventofcode.com/2022/day/5
     /// </summary>
-    internal class Day05 : IAocDay<string>
+    internal class Day05 : IQuizPartOne<string>, IQuizPartTwo<string>
     {
         private readonly IInputProvider inputProvider;
 

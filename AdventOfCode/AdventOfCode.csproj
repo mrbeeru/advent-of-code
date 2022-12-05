@@ -14,19 +14,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Y2022\input05.txt">
+    <None Update="Quizzes\Y2022\input05.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Y2022\input04.txt">
+    <None Update="Quizzes\Y2022\input04.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Y2022\input01.txt">
+    <None Update="Quizzes\Y2022\input01.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Y2022\input03.txt">
+    <None Update="Quizzes\Y2022\input03.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Y2022\input02.txt">
+    <None Update="Quizzes\Y2022\input02.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
