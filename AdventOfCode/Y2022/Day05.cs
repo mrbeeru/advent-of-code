@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode.Y2022
 {
+    /// <summary>
+    /// https://adventofcode.com/2022/day/5
+    /// </summary>
     internal class Day05 : IAocDay<string>
     {
         private readonly IInputProvider inputProvider;
@@ -45,17 +48,16 @@ namespace AdventOfCode.Y2022
         {
             var numStacks = lines.Last().Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(x => int.Parse(x)).Max();
             var stacks = new Stack<char>[numStacks];
-            
-            Enumerable.Range(0, numStacks).ForEach(x => stacks[x] = new());
 
-            foreach (var line in lines.Take(lines.Count() - 1).Reverse())
+            foreach (var line in lines.Reverse().Skip(1))
             {
                 for (int i = 0; i < numStacks; i++)
                 {
-                    if (!char.IsUpper(line[1 + 4 * i]))
-                        continue;
-
-                    stacks[i].Push(line[1 + 4 * i]);
+                    if (char.IsUpper(line[4 * i + 1]))
+                    {
+                        stacks[i] ??= new();
+                        stacks[i].Push(line[4 * i + 1]);
+                    }
                 }
             }
 
@@ -83,21 +85,14 @@ namespace AdventOfCode.Y2022
         {
             foreach (var move in moves)
             {
-                if (preserveOrder == false)
-                {
-                    // for part 1
-                    for (int i = 0; i < move.count; i++)
-                        stacks[move.to].Push(stacks[move.from].Pop());
-                } else
-                {
-                    //for part 2
-                    var list = new List<char>();
-                    for (int i = 0; i < move.count; i++)
-                        list.Add(stacks[move.from].Pop());
+                var list = new List<char>();
+                for (int i = 0; i < move.count; i++)
+                    list.Add(stacks[move.from].Pop());
 
+                if (preserveOrder)
                     list.Reverse();
-                    list.ForEach(x => stacks[move.to].Push(x));
-                }
+
+                list.ForEach(x => stacks[move.to].Push(x));
             }
         }
     }
