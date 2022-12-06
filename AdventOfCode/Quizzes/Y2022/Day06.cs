@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace AdventOfCode.Quizzes.Y2022
 {
     /// <summary>
-    /// 
+    /// https://adventofcode.com/2022/day/6
     /// </summary>
     internal class Day06 : IQuizPartOne<long>, IQuizPartTwo<long>
     {
@@ -23,16 +23,16 @@ namespace AdventOfCode.Quizzes.Y2022
         public long Part1()
         {
             //1 line input
-            return Solve(inputProvider.GetInput().First(), 4);
+            return FindMarkerIndex(inputProvider.GetInput().First(), 4);
         }
 
         public long Part2()
         {
             //1 line input
-            return Solve(inputProvider.GetInput().First(), 14);
+            return FindMarkerIndex(inputProvider.GetInput().First(), 14);
         }
 
-        private int Solve(string input, int count)
+        private int FindMarkerIndex(string input, int count)
         {
             return input.Window(count)
                 .Select((chars, index) => (chars.GroupBy(c => c), index))
