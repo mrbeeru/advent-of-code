@@ -1,0 +1,42 @@
+﻿using AdventOfCode.Reader;
+using MoreLinq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AdventOfCode.Quizzes.Y2022
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    internal class Day06 : IQuizPartOne<long>, IQuizPartTwo<long>
+    {
+        private readonly IInputProvider inputProvider;
+
+        public Day06(IInputProvider inputProvider)
+        {
+            this.inputProvider = inputProvider;
+        }
+
+        public long Part1()
+        {
+            //1 line input
+            return Solve(inputProvider.GetInput().First(), 4);
+        }
+
+        public long Part2()
+        {
+            //1 line input
+            return Solve(inputProvider.GetInput().First(), 14);
+        }
+
+        private int Solve(string input, int count)
+        {
+            return input.Window(count)
+                .Select((chars, index) => (chars.GroupBy(c => c), index))
+                .First(x => x.Item1.Count() == count).index + count;
+        }
+    }
+}
