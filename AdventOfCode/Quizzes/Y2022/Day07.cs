@@ -22,22 +22,17 @@ namespace AdventOfCode.Quizzes.Y2022
 
         public long Part1()
         {
-            var input = this.inputProvider.GetInput();
-            var dirs = Parse(input);
-           
+            var dirs = Parse(this.inputProvider.GetInput());
             return dirs.Where(x => x.TotalSize <= 100_000).Sum(x => x.TotalSize);
         }
 
         public long Part2()
         {
-            var input = this.inputProvider.GetInput();
-            var dirs = Parse(input);
+            var dirs = Parse(this.inputProvider.GetInput());
             var root = dirs.Single(x => x.Parent == null);
 
-            var totalSystemSpace = 70_000_000;
-            var spaceForUpdate = 30_000_000;
-            var freeSpace = (totalSystemSpace - root.TotalSize);
-            var spaceToFree = spaceForUpdate - freeSpace;
+            // 30kk - space needed for update, 70kk total system space
+            var spaceToFree = 30_000_000 - (70_000_000 - root.TotalSize);
 
             return dirs.Where(x => x.TotalSize > spaceToFree).OrderBy(x => x.TotalSize).First().TotalSize;
         }
@@ -51,20 +46,17 @@ namespace AdventOfCode.Quizzes.Y2022
             {
                 if (cmd == "$ ls")
                     continue;
-                else if (cmd.StartsWith("dir"))
+                else if (cmd.StartsWith("dir")) // a new directory
                 {
                     var dir = new AocDirectory() { Name = cmd.Split(" ")[1] };
                     currentDir.AddChild(dir);
                     dirs.Add(dir);
                 }
-                else if (char.IsDigit(cmd[0]))
-                {
-                    var file = new AocFile() { Size = int.Parse(cmd.Split(" ")[0]) };
-                    currentDir.AddFile(file);
-                }
-                else if (cmd[5] == '.')
+                else if (char.IsDigit(cmd[0]))  // a file
+                    currentDir.Size += int.Parse(cmd.Split(" ")[0]);
+                else if (cmd[5] == '.')         // cd .. command
                     currentDir = currentDir.Parent;
-                else if (char.IsLetter(cmd[5]))
+                else if (char.IsLetter(cmd[5])) // cd <dir> command
                     currentDir = currentDir.GetChildDirectory(cmd.Split(" ")[2]);
             }
 
@@ -73,35 +65,15 @@ namespace AdventOfCode.Quizzes.Y2022
 
         private class AocDirectory
         {
-            private List<AocFile> files = new();
-            public List<AocDirectory> dirs = new();
+            private List<AocDirectory> dirs = new();
 
-            public string Name { get; set; }
+            public string? Name { get; set; }
             public AocDirectory Parent { get; set; }
-            public long Size => files.Select(x => x.Size).Sum();
+            public long Size { get; set; }
             public long TotalSize => Size + dirs.Select(x => x.TotalSize).Sum();
 
-
-            public void AddFile(AocFile file)
-            {
-                files.Add(file);
-            }
-
-            public void AddChild(AocDirectory dir)
-            {
-                dir.Parent = this;
-                dirs.Add(dir);
-            }
-
-            public AocDirectory GetChildDirectory(string name)
-            {
-                return dirs.First(x => x.Name == name);
-            }
-        }
-
-        private class AocFile
-        {
-            public long Size { get; set; }
+            public void AddChild(AocDirectory dir) { dir.Parent = this; dirs.Add(dir); }
+            public AocDirectory GetChildDirectory(string name) => dirs.First(x => x.Name == name);
         }
     }
 }
