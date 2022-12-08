@@ -30,48 +30,22 @@ namespace AdventOfCode.Quizzes.Y2022
 
         private bool IsVisible(int i, int j, int[][] forest)
         {
-            return IsVisibleDown(i, j, forest) || IsVisibleUp(i, j, forest) || IsVisibleLeft(i, j, forest) || IsVisibleRight(i, j, forest);
+            (int, int)[] directions = new[] { (-1, 0), (0, -1), (1, 0), (0, 1) };
+            return directions.Any(d => IsVisibleDirection(i, j, forest, d));
         }
 
-        private bool IsVisibleUp(int i, int j, int[][] forest)
+        private bool IsVisibleDirection(int a, int b, int[][] forest, (int x, int y) direction)
         {
-            for (int k = i - 1; k >= 0; k--)
+            var i = a + direction.x; 
+            var j = b + direction.y;
+
+            while (i >= 0 && j >= 0 && i < forest.Length && j < forest.Length)
             {
-                if (forest[k][j] >= forest[i][j])
+                if (forest[i][j] >= forest[a][b])
                     return false;
-            }
 
-            return true;
-        }
-
-        private bool IsVisibleDown(int i, int j, int[][] forest)
-        {
-            for (int k = i + 1; k < forest.Length; k++)
-            {
-                if (forest[k][j] >= forest[i][j])
-                    return false;
-            }
-
-            return true;
-        }
-
-        private bool IsVisibleLeft(int i, int j, int[][] forest)
-        {
-            for (int k = j - 1; k >= 0; k--)
-            {
-                if (forest[i][k] >= forest[i][j])
-                    return false;
-            }
-
-            return true;
-        }
-
-        private bool IsVisibleRight(int i, int j, int[][] forest)
-        {
-            for (int k = j + 1; k < forest.Length; k++)
-            {
-                if (forest[i][k] >= forest[i][j])
-                    return false;
+                i += direction.x;
+                j += direction.y;
             }
 
             return true;
@@ -79,81 +53,29 @@ namespace AdventOfCode.Quizzes.Y2022
 
         private int ScenicScore(int i, int j, int[][] forest)
         {
-            return ScoreUp(i, j, forest) * ScoreDown(i, j, forest) * ScoreLeft(i, j, forest) * ScoreRight(i, j, forest);
+            (int, int)[] directions = new[] { (-1, 0), (0, -1), (1, 0), (0, 1) };
+            return directions.Select(x => ScenicScoreDirection(i, j, forest, x)).Aggregate(1, (a,b) => a * b);
         }
 
-        private int ScoreUp(int i, int j, int[][] forest)
+        private int ScenicScoreDirection(int a, int b, int[][] forest, (int x, int y) direction)
         {
-            int k = i;
+            var i = a + direction.x;
+            var j = b + direction.y;
+
             int score = 0;
 
             do
             {
-                k--;
+                i += direction.x;
+                j += direction.y;
 
-                if (k < 0)
+                if (i < 0 && j < 0 && i >= forest.Length && j >= forest.Length)
                     break;
 
                 score++;
-            } while (k >= 0 && forest[k][j] < forest[i][j]);
+            } while (i >= 0 && j >= 0 && i < forest.Length && j < forest.Length && forest[i][j] < forest[a][b]);
 
             return score;
         }
-
-        private int ScoreDown(int i, int j, int[][] forest)
-        {
-            int k = i;
-            int score = 0;
-
-            do
-            {
-                k++;
-
-                if (k >= forest.Length)
-                    break;
-
-                score++;
-            } while (k < forest.Length && forest[k][j] < forest[i][j]);
-
-            return score;
-        }
-
-        private int ScoreLeft(int i, int j, int[][] forest)
-        {
-            int k = j;
-            int score = 0;
-
-            do
-            {
-                k--;
-
-                if (k < 0)
-                    break;
-
-                score++;
-            } while (k >= 0 && forest[i][k] < forest[i][j]);
-
-            return score;
-        }
-
-        private int ScoreRight(int i, int j, int[][] forest)
-        {
-            int k = j;
-            int score = 0;
-
-            do
-            {
-                k++;
-
-                if (k >= forest.Length)
-                    break;
-
-                score++;
-            } while (k < forest.Length && forest[i][k] < forest[i][j]);
-
-            return score;
-        }
-
-
     }
 }
