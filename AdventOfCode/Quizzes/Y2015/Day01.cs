@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode.Quizzes.Y2015
 {
-    internal class Day01 : IQuizPartOne<long>, IQuizPartTwo<long>
+    internal class Day01 : IPartOne<long>, IPartTwo<long>
     {
         private readonly IInputProvider inputProvider;
 

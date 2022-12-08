@@ -11,12 +11,12 @@ namespace AdventOfCode.Quizzes
 
     }
 
-    internal interface IQuizPartOne<T> : IQuiz
+    internal interface IPartOne<T> : IQuiz
     {
         T Part1();
     }
 
-    internal interface IQuizPartTwo<T> : IQuiz
+    internal interface IPartTwo<T> : IQuiz
     {
         T Part2();
     }

@@ -50,8 +50,8 @@ namespace AdventOfCode
 
                 var interfaces = quiz.GetInterfaces();
 
-                var part1 = interfaces.Where(x => x.FullName.Contains("IQuizPartOne")).Any();
-                var part2 = interfaces.Where(x => x.FullName.Contains("IQuizPartTwo")).Any();
+                var part1 = interfaces.Where(x => x.FullName.Contains("IPartOne")).Any();
+                var part2 = interfaces.Where(x => x.FullName.Contains("IPartTwo")).Any();
 
                 hints.Add((year, day, part1, part2));
             }
