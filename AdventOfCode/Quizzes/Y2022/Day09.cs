@@ -80,7 +80,7 @@ namespace AdventOfCode.Quizzes.Y2022
 
         public (int x, int y) FindKnotDirection((int x, int y) head, (int x, int y) tail)
         {
-            var nextTailMoveDirection = (tail.x - head.x, tail.y - head.y) switch
+            return (tail.x - head.x, tail.y - head.y) switch
             {
                 (-2, -2) => ( 1,  1),
                 (-2, -1) => ( 1,  1),
@@ -100,8 +100,6 @@ namespace AdventOfCode.Quizzes.Y2022
                 ( 2,  2) => (-1, -1),
                 _ => (0, 0) // stay in place
             };
-
-            return nextTailMoveDirection;
         }
     }
 }
