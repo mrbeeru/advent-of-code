@@ -85,7 +85,7 @@ namespace AdventOfCode.Quizzes.Y2022
             (int x, int y) = (tail.x - head.x, tail.y - head.y);
             var distance = Max(Abs(x), Abs(y));
 
-            return distance != 2 ? (0, 0) : (-x / Max(Abs(x), 1), -y / Max(Abs(y), 1));
+            return distance != 2 ? (0, 0) : (-Sign(x), -Sign(y));
         }
     }
 }
