@@ -49,8 +49,8 @@ namespace AdventOfCode.Quizzes.Y2022
             for (int i = 0; i < numTimes; i++)
             {
                 var head = knotPositions[0];
-                head.x -= direction.x;
-                head.y -= direction.y;
+                head.x += direction.x;
+                head.y += direction.y;
                 knotPositions[0] = head;
 
                 for (int j = 1; j < knotPositions.Length; j++)
