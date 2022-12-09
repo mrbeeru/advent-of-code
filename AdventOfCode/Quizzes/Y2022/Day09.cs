@@ -58,8 +58,8 @@ namespace AdventOfCode.Quizzes.Y2022
                     var knot = knotPositions[j];
                     var knotDir = FindKnotDirection(head, knot);
 
-                    knot.x -= knotDir.x;
-                    knot.y -= knotDir.y;
+                    knot.x += knotDir.x;
+                    knot.y += knotDir.y;
                     knotPositions[j] = knot;
                     head = knotPositions[j];
                 }
@@ -82,7 +82,7 @@ namespace AdventOfCode.Quizzes.Y2022
 
         public (int x, int y) FindKnotDirection((int x, int y) head, (int x, int y) tail)
         {
-            (int x, int y) = (tail.x - head.x, tail.y - head.y);
+            (int x, int y) = (head.x - tail.x, head.y - tail.y);
             var distance = Max(Abs(x), Abs(y));
 
             return distance != 2 ? (0, 0) : (Sign(x), Sign(y));
