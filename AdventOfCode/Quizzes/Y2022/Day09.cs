@@ -3,8 +3,10 @@ using MoreLinq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Math;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
@@ -80,26 +82,10 @@ namespace AdventOfCode.Quizzes.Y2022
 
         public (int x, int y) FindKnotDirection((int x, int y) head, (int x, int y) tail)
         {
-            return (tail.x - head.x, tail.y - head.y) switch
-            {
-                (-2, -2) => ( 1,  1),
-                (-2, -1) => ( 1,  1),
-                (-2,  0) => ( 1,  0), 
-                (-2,  1) => ( 1, -1),
-                (-2,  2) => ( 1, -1),
-                (-1, -2) => ( 1,  1),
-                (-1,  2) => ( 1, -1), 
-                ( 0, -2) => ( 0,  1), 
-                ( 0,  2) => ( 0, -1), 
-                ( 1, -2) => (-1,  1),
-                ( 1,  2) => (-1, -1),
-                ( 2, -2) => (-1,  1),
-                ( 2, -1) => (-1,  1),
-                ( 2,  0) => (-1,  0),
-                ( 2,  1) => (-1, -1),
-                ( 2,  2) => (-1, -1),
-                _ => (0, 0) // stay in place
-            };
+            (int x, int y) = (tail.x - head.x, tail.y - head.y);
+            var distance = Max(Abs(x), Abs(y));
+
+            return distance != 2 ? (0, 0) : (-x / Max(Abs(x), 1), -y / Max(Abs(y), 1));
         }
     }
 }
