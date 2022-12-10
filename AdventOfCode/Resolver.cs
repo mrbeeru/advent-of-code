@@ -65,7 +65,7 @@ namespace AdventOfCode
 
                 foreach (var tuple in year)
                 {
-                    result += "    Day " + tuple.day + " - " + (tuple.part1 ? "Part 1 " : "") + (tuple.part1 && tuple.part2 ? "| " : "") + (tuple.part2 ? "Part 2" : "");
+                    result += "    Day " + $"{tuple.day}".PadRight(2) + " -  " + (tuple.part1 ? "Part 1 " : "") + (tuple.part1 && tuple.part2 ? "| " : "") + (tuple.part2 ? "Part 2" : "");
                     result += Environment.NewLine;
                 }
             }
