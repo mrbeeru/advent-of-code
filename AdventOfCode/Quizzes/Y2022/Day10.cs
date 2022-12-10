@@ -7,7 +7,7 @@ namespace AdventOfCode.Quizzes.Y2022
     internal class Day10 : IPartOne<long>, IPartTwo<string>
     {
         private readonly IInputProvider inputProvider;
-        private readonly char[] crt = Enumerable.Range(0, 240).Select(x => '.').ToArray();
+        private readonly char[] crt = Enumerable.Range(0, 240).Select(x => ' ').ToArray();
         private delegate int Handle(int cc, int regx);
 
         public Day10(IInputProvider inputProvider)
@@ -55,7 +55,7 @@ namespace AdventOfCode.Quizzes.Y2022
 
         private int HandlePart2(int cc, int regx)
         {
-            crt[cc - 1] = ((cc % 40) >= regx && (cc % 40) <= regx + 2) ? '#' : '.';
+            crt[cc - 1] = (((cc-1) % 40) >= regx-1 && ((cc-1) % 40) <= regx + 1) ? '▓' : ' ';
             return 0;
         }
 
