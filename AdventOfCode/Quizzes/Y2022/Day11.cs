@@ -24,18 +24,18 @@ namespace AdventOfCode.Quizzes.Y2022
 
         public long Part1()
         {
-            return Solve(20, x => x / 3);
+            var monkeys = ParseInput(inputProvider.GetInput()).ToArray();
+            return Solve(20, monkeys, x => x / 3);
         }
 
         public long Part2()
         {
-            return Solve(10_000, x => x % (2*3*5*7*11*13*17*19));
+            var monkeys = ParseInput(inputProvider.GetInput()).ToArray();
+            return Solve(10_000, monkeys, x => x % monkeys.Product(x => x.TestNumber));
         }
 
-        private long Solve(int loops, Func<long, long> stressLoweringMechanism)
+        private long Solve(int loops, Monkey[] monkeys, Func<long, long> stressLoweringMechanism)
         {
-            var monkeys = ParseInput(inputProvider.GetInput()).ToList();
-
             for (int i = 0; i < loops; i++)
             {
                 foreach (var monkey in monkeys)
