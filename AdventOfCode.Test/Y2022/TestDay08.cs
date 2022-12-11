@@ -13,7 +13,7 @@ namespace AdventOfCode.Test.Y2022
         public void Part1()
         {
             var a = new Day08(InputProvider);
-            Assert.Equal(1803, a.Part1());
+            Assert.Equal(21, a.Part1());
         }
 
         [Fact]
