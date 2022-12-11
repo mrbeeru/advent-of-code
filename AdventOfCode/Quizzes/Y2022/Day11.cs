@@ -58,7 +58,7 @@ namespace AdventOfCode.Quizzes.Y2022
 
         private IEnumerable<Monkey> ParseInput(IEnumerable<string> input)
         {
-            return input.GroupCount(7).Select(x => Monkey.Parse(x.ToArray()));
+            return input.Chunk(7).Select(x => Monkey.Parse(x.ToArray()));
         }
 
         private class Monkey

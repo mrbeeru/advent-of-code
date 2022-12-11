@@ -26,7 +26,7 @@ namespace AdventOfCode.Quizzes.Y2022
         public string Part2()
         {
             Solve(HandlePart2);
-            crt.GroupCount(40).ForEach(x => Console.WriteLine(string.Join("", x))); // display the crt
+            crt.Chunk(40).ForEach(x => Console.WriteLine(string.Join("", x))); // display the crt
 
             return $"{Environment.NewLine}The answer is the 8 capital letters displayed above.";
         }

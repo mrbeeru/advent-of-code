@@ -36,7 +36,7 @@ namespace AdventOfCode.Quizzes.Y2022
         {
             var input = inputProvider.GetInput();
 
-            return input.GroupCount(3)
+            return input.Chunk(3)
                 .Select(x => CommonItem(x))
                 .Select(commonItem => Priority(commonItem))
                 .Sum();
