@@ -57,13 +57,13 @@ namespace AdventOfCode.Quizzes.Y2022
         private int ScenicScore(int i, int j, int[][] forest)
         {
             (int, int)[] directions = new[] { (-1, 0), (0, -1), (1, 0), (0, 1) };
-            return directions.Select(x => ScenicScoreDirection(i, j, forest, x)).Aggregate(1, (a,b) => a * b);
+            return directions.Aggregate(1, (a,b) => a *  ScenicScoreDirection(i, j, forest, b));
         }
 
         private int ScenicScoreDirection(int a, int b, int[][] forest, (int x, int y) direction)
         {
-            var i = a + direction.x;
-            var j = b + direction.y;
+            var i = a;
+            var j = b;
 
             int score = 0;
 
@@ -72,7 +72,7 @@ namespace AdventOfCode.Quizzes.Y2022
                 i += direction.x;
                 j += direction.y;
 
-                if (i < 0 && j < 0 && i >= forest.Length && j >= forest.Length)
+                if (i < 0 || j < 0 || i >= forest.Length || j >= forest.Length)
                     break;
 
                 score++;
