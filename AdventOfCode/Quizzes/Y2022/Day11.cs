@@ -40,13 +40,11 @@ namespace AdventOfCode.Quizzes.Y2022
             {
                 foreach (var monkey in monkeys)
                 {
-                    var items = monkey.Items;
-
-                    foreach (var item in items)
+                    foreach (var item in monkey.Items)
                     {
-                        var stressLevel = monkey.GetOperationResult(item);
+                        var stressLevel = stressLoweringMechanism(monkey.GetOperationResult(item));
                         var nextMonkey = monkeys[monkey.Next(stressLevel)];
-                        monkey.PassItemto(stressLoweringMechanism(stressLevel), nextMonkey);
+                        monkey.PassItemto(stressLevel, nextMonkey);
                         monkey.Activity++;
                     }
                     monkey.Items.Clear();
@@ -66,7 +64,7 @@ namespace AdventOfCode.Quizzes.Y2022
             public int Id { get; set; }
             public List<long> Items { get; set; }
             public string Operation { get; set; }
-            public long TestNumber { get; set; }
+            public int TestNumber { get; set; }
             public int TestTrueMonkeyId { get; set; }
             public int TestFalseMonkeyId { get; set; }
             public long Activity { get; set; }
