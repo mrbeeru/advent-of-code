@@ -13,7 +13,7 @@ namespace AdventOfCode.Quizzes.Y2022
     /// <summary>
     /// https://adventofcode.com/2022/day/11
     /// </summary>
-    internal class Day11 : IPartOne<long>, IPartTwo<long>
+    public class Day11 : IPartOne<long>, IPartTwo<long>
     {
         private readonly IInputProvider inputProvider;
 

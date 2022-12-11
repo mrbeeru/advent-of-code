@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode.Reader
 {
-    internal interface IInputProvider
+    public interface IInputProvider
     {
         IEnumerable<string> GetInput();
     }
