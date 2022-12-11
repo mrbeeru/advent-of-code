@@ -4,6 +4,9 @@ using MoreLinq;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
+    /// <summary>
+    /// https://adventofcode.com/2022/day/10
+    /// </summary>
     internal class Day10 : IPartOne<long>, IPartTwo<string>
     {
         private readonly IInputProvider inputProvider;
