@@ -1,4 +1,5 @@
 ﻿using AdventOfCode.Reader;
+using MoreLinq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,25 +34,10 @@ namespace AdventOfCode.Quizzes.Y2022
                 .Sum();
         }
 
-        private IEnumerable<long> GetCaloriesPerElf()
+        private IEnumerable<int> GetCaloriesPerElf()
         {
-            var lines = inputProvider.GetInput();
-            var calories = new List<long>();
-            var current = 0;
-
-            foreach (var line in lines)
-            {
-                if (string.IsNullOrWhiteSpace(line))
-                {
-                    calories.Add(current);
-                    current = 0;
-                    continue;
-                }
-
-                current += int.Parse(line);
-            }
-
-            return calories;
+            return inputProvider.GetInput()
+                .Split(x => string.IsNullOrWhiteSpace(x)).Select(x => x.Select(y => int.Parse(y)).Sum());
         }
 
     }
