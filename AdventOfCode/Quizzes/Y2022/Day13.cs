@@ -1,11 +1,9 @@
 ﻿using AdventOfCode.Extensions;
 using AdventOfCode.Reader;
-using MoreLinq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static MoreLinq.Extensions.ZipLongestExtension;
+using static MoreLinq.Extensions.SplitExtension;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
@@ -49,9 +47,8 @@ namespace AdventOfCode.Quizzes.Y2022
             {
                 if (rawPacket[i] == '[')
                 {
-                    var tmp = new Packet();
+                    var tmp = new Packet() { Parent = current};
                     current.Next.Add(tmp);
-                    tmp.Parent = current;
                     current = tmp;
                 } else if (rawPacket[i] == ']')
                 {
@@ -81,27 +78,19 @@ namespace AdventOfCode.Quizzes.Y2022
 
             public int CompareTo(Packet? other)
             {
-                for (int i = 0; i < Next.Count; i++)
-                {
-                    if (i >= other.Next.Count)
-                        return 1;
-
-                    (object left, object right) pair = (Next[i], other.Next[i]);
-
-                    var result = pair switch
+                return Next.ZipLongest(other.Next, (x, y) => (x,y))
+                    .Select(pair => pair switch
                     {
+                        (null, _) => -1,
+                        (_, null) => 1,
                         (int left, int right) => Math.Sign(left - right),
                         (Packet left, Packet right) => left.CompareTo(right),
                         (Packet left, int right) => left.CompareTo(ToPacket(right)),
                         (int left, Packet right) => ToPacket(left).CompareTo(right),
                         _ => throw new Exception("Invalid case.")
-                    };
-
-                    if (result != 0) 
-                        return result;
-                }
-
-                return -1;
+                    })
+                    .Append(-1)
+                    .First(x => x != 0);
             }
 
             public bool IsDivider()
@@ -131,6 +120,5 @@ namespace AdventOfCode.Quizzes.Y2022
 
             return result;
         }
-
     }
 }
