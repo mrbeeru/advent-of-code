@@ -1,4 +1,5 @@
-﻿using AdventOfCode.Reader;
+﻿using AdventOfCode.Extensions;
+using AdventOfCode.Reader;
 using MoreLinq;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
-    public class Day13 : IPartOne<long>
+    public class Day13 : IPartOne<long>, IPartTwo<long>
     {
         private readonly IInputProvider inputProvider;
 
@@ -22,88 +23,95 @@ namespace AdventOfCode.Quizzes.Y2022
             var input = inputProvider.GetInput();
             var groups = input.Split(string.Empty);
             var parsed = groups.Select(x => x.Select(y => Parse(y)).ToArray()).ToList();
-            var res = parsed.Select((x, i) => (x[0].CompareTo(x[1]), i + 1)).Where(x => x.Item1 == 1);
-            return res.Sum(x => x.Item2);
+            
+            return parsed.Select((x, i) => (x[0].CompareTo(x[1]), i + 1))
+                         .Where(x => x.Item1 == -1)
+                         .Sum(x => x.Item2);
         }
 
-        public bool Compare(string a, string b)
+        public long Part2()
         {
-            return false;
+            var dividerPackets = new[] { "[[2]]", "[[6]]" };
+            var input = inputProvider.GetInput().ToList();
+            input.AddRange(dividerPackets);
+
+            var packets = input.Split(string.Empty).SelectMany(x => x).Select(x => Parse(x)).ToList();
+            packets.Sort();
+            return packets.Select((x, i) => (x, i)).Where(x => x.x.IsDivider()).Product(x => x.i + 1);
         }
 
-        private Node Parse(string a)
+        private Packet Parse(string rawPacket)
         {
-            Node root = new Node();
-            Node current = root;
+            Packet root = new();
+            Packet current = root;
 
-            for (int i = 1; i < a.Length; i++)
+            for (int i = 1; i < rawPacket.Length; i++)
             {
-                if (a[i] == '[')
+                if (rawPacket[i] == '[')
                 {
-                    var tmp = new Node();
+                    var tmp = new Packet();
                     current.Next.Add(tmp);
                     tmp.Parent = current;
                     current = tmp;
-                } else if (a[i] == ']')
+                } else if (rawPacket[i] == ']')
                 {
                     current = current.Parent;
-                } else if (a[i] == ',')
+                } else if (char.IsDigit(rawPacket[i]))
                 {
-                    continue;
-                } else if (char.IsDigit(a[i]))
-                {
-                    var num = NextNumber(a, i);
-                    i += num/10;
+                    var num = NextNumber(rawPacket, i);
                     current.Next.Add(num);
-                } else
-                {
-                    throw new Exception("Unhandled.");
+                    i += num/10;
                 }
+                else if (rawPacket[i] == ',')
+                    continue;
+                else
+                    throw new Exception("Unhandled.");
+
             }
 
             return root;
         }
 
-        private class Node : IComparable<Node>
+        private class Packet : IComparable<Packet>
         {
-            public Node Parent;
+            public Packet Parent;
             public List<object> Next { get; set; } = new List<object>();
 
-            public int CompareTo(Node? other)
+            public static Packet ToPacket(object o) => new Packet { Next = new List<object> { o } };
+
+            public int CompareTo(Packet? other)
             {
                 for (int i = 0; i < Next.Count; i++)
                 {
                     if (i >= other.Next.Count)
-                        return -1;
+                        return 1;
 
-                    object obj = Next[i];
-                    object obj2 = other.Next[i];
+                    (object left, object right) pair = (Next[i], other.Next[i]);
 
-                    if (obj is int numLeft && obj2 is int numRight)
+                    var result = pair switch
                     {
-                        if (numLeft > numRight)
-                            return -1;
-                        else if (numLeft < numRight)
-                            return 1;
-                    }
+                        (int left, int right) => Math.Sign(left - right),
+                        (Packet left, Packet right) => left.CompareTo(right),
+                        (Packet left, int right) => left.CompareTo(ToPacket(right)),
+                        (int left, Packet right) => ToPacket(left).CompareTo(right),
+                        _ => throw new Exception("Invalid case.")
+                    };
 
-                    if (obj is Node nodeLeft && obj2 is Node nodeRight)
-                    {
-                        return nodeLeft.CompareTo(nodeRight);
-                    }
-
-                    if (obj is Node)
-                    {
-                        return ((Node)obj).CompareTo(new Node { Next = new List<object> { obj2 } });
-                    }
-
-                    if (obj2 is Node)
-                    {
-                        return new Node { Next = new List<object> { obj } }.CompareTo((Node)obj2);
-                    }
+                    if (result != 0) 
+                        return result;
                 }
 
-                return 1;
+                return -1;
+            }
+
+            public bool IsDivider()
+            {
+                return Parent == null &&
+                    Next.Count == 1 &&
+                    Next[0] is Packet node &&
+                    node.Next.Count == 1 &&
+                    node.Next[0] is int a &&
+                    (a == 2 || a == 6);
             }
         }
 
