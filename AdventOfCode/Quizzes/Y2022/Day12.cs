@@ -64,7 +64,7 @@ namespace AdventOfCode.Quizzes.Y2022
                         var nexti = i + di;
                         var nextj = j + dj;
 
-                        if (Bounds.Contains(matrix, nexti, nextj) && matrix[nexti][nextj] - level <= 1)
+                        if ((nexti, nextj).Within(matrix) && matrix[nexti][nextj] - level <= 1)
                             graph.AddEdge(new Edge<int>(currentIndex, nexti * w + nextj));
                     }
                 }

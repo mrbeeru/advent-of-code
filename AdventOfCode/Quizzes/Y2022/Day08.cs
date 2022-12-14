@@ -43,7 +43,7 @@ namespace AdventOfCode.Quizzes.Y2022
             var i = a + direction.x; 
             var j = b + direction.y;
 
-            while (Bounds.Contains(forest, i, j))
+            while ((i,j).Within(forest))
             {
                 if (forest[i][j] >= forest[a][b])
                     return false;
@@ -73,11 +73,11 @@ namespace AdventOfCode.Quizzes.Y2022
                 i += direction.x;
                 j += direction.y;
 
-                if (!Bounds.Contains(forest, i, j))
+                if (!(i,j).Within(forest))
                     break;
 
                 score++;
-            } while (Bounds.Contains(forest, i, j) && forest[i][j] < forest[a][b]);
+            } while ((i,j).Within(forest) && forest[i][j] < forest[a][b]);
 
             return score;
         }

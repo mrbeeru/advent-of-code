@@ -80,7 +80,7 @@ namespace AdventOfCode.Quizzes.Y2022
                         return i;
 
                     var d = dir.Select(x => (x.y + row, x.x + col))
-                        .Where(x => Bounds.Contains(matrix, x.Item1, x.Item2) && matrix[x.Item1][x.Item2] == 0)
+                        .Where(x => (x.Item1, x.Item2).Within(matrix) && matrix[x.Item1][x.Item2] == 0)
                         .FirstOrDefault();
 
                     // this means we can't go in any direction => sand found it's resting place
