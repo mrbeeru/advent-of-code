@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
-    public class Day14 : IPartOne<long>
+    public class Day14 : IPartOne<long>, IPartTwo<long>
     {
         private readonly IInputProvider inputProvider;
 
@@ -27,6 +27,18 @@ namespace AdventOfCode.Quizzes.Y2022
             var result = Simulate(matrix, 500, 0);
             DisplayMatrix(matrix);
 
+            return result;
+        }
+
+        public long Part2()
+        {
+            var input = inputProvider.GetInput();
+            var matches = input.Select(x => Regex.Matches(x, @"(\d+),(\d+)").Select(x => (int.Parse(x.Groups[1].Value), int.Parse(x.Groups[2].Value))));
+            (int w, int h) = FindDimensions(matches);
+            var matrix = InitializeMatrix(matches, w + h + 10, h + 2);
+            AddFloor(matrix);
+            var result = Simulate(matrix, 500, 0);
+            DisplayMatrix(matrix);
             return result;
         }
 
@@ -84,6 +96,9 @@ namespace AdventOfCode.Quizzes.Y2022
 
                 while (true)
                 {
+                    if (matrix[cy][cx] == 'o')
+                        return i;
+
                     // try go bottom
                     if (cy + 1 < matrix.Length && matrix[cy + 1][cx] == 0)
                     {
@@ -124,6 +139,12 @@ namespace AdventOfCode.Quizzes.Y2022
             }
 
             return i;
+        }
+
+        public void AddFloor(char[][] matrix)
+        {
+            for (int i = 0; i < matrix[0].Length; i++)
+                matrix[matrix.Length - 1][i] = '#';
         }
 
     }

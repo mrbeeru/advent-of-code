@@ -16,6 +16,13 @@ namespace AdventOfCode.Test.Y2022
             Assert.Equal(24, a.Part1());
         }
 
+        [Fact]
+        public void Part2()
+        {
+            var a = new Day14(InputProvider);
+            Assert.Equal(93, a.Part2());
+        }
+
         protected override string[] AocInput()
         {
             return new[]
