@@ -1,11 +1,6 @@
 ﻿using AdventOfCode.Reader;
 using MoreLinq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
@@ -34,14 +29,14 @@ namespace AdventOfCode.Quizzes.Y2022
             return Simulate(matrix, 500, 0);
         }
 
-        public (int w, int h) FindDimensions(IEnumerable<IEnumerable<(int, int)>> matches)
+        private (int w, int h) FindDimensions(IEnumerable<IEnumerable<(int, int)>> matches)
         {
             var maxX = matches.SelectMany(x => x.Select(y => y.Item1)).Max();
             var maxY = matches.SelectMany(x => x.Select(y => y.Item2)).Max();
             return (maxX + 1, maxY + 1);
         }
 
-        public char[][] InitializeMatrix(IEnumerable<IEnumerable<(int, int)>> matches, int w, int h, bool markFloor = false)
+        private char[][] InitializeMatrix(IEnumerable<IEnumerable<(int, int)>> matches, int w, int h, bool markFloor = false)
         {
             char[][] m = new char[h][];
             Enumerable.Range(0, h).Select(x => m[x] = new char[w]).ToList();
@@ -69,9 +64,10 @@ namespace AdventOfCode.Quizzes.Y2022
             return m;
         }
 
-        public int Simulate(char[][] matrix, int x, int y)
+        private int Simulate(char[][] matrix, int x, int y)
         {
             (int width, int height) = (matrix[0].Length, matrix.Length);
+            (int x, int y)[] dirs = new[] { (0, 1), (-1, 1), (1, 1) };
 
             for (int i = 0; ; i++)
             {
@@ -79,37 +75,22 @@ namespace AdventOfCode.Quizzes.Y2022
 
                 while (true)
                 {
+                    //condition for part 2
                     if (matrix[cy][cx] == 'o')
                         return i;
 
-                    //abyss
-                    if (cy >= height - 1)
+                    //abyss for part 1
+                    if (cy >= height - 1 || cx - 1 <= 0 || cx + 1 >= width - 1)
                         return i;
 
-                    if (cx - 1 <= 0)
-                        return i;
+                    var d = dirs.Select(x => (x.x + cx, x.y + cy))
+                        .Where(x => IsInBounds(x.Item1, x.Item2, width, height) && matrix[x.Item2][x.Item1] == 0)
+                        .FirstOrDefault();
 
-                    if (cx + 1 >= width - 1)
-                        return i;
-
-                    // try go bottom
-                    if (cy + 1 < height && matrix[cy + 1][cx] == 0)
+                    if (d.Item1 != 0 && d.Item2 != 0)
                     {
-                        cy++;
-                        continue;
-                    }
-
-                    // bottom left
-                    if (cx - 1 >= 0 && cy + 1 < height && matrix[cy+1][cx-1] == 0)
-                    {
-                        cx--; cy++;
-                        continue;
-                    }
-
-                    // bottom right
-                    if (cx + 1 < width && cy + 1 < height && matrix[cy + 1][cx + 1] == 0)
-                    {
-                        cx++; cy++;
+                        cx = d.Item1;
+                        cy = d.Item2;
                         continue;
                     }
 
@@ -120,5 +101,7 @@ namespace AdventOfCode.Quizzes.Y2022
 
             throw new Exception("Should return before reaching here.");
         }
+
+        private bool IsInBounds(int x, int y, int width, int height) => x >= 0 && x < width && y >= 0 && y < height;
     }
 }
