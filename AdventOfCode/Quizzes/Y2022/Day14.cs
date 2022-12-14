@@ -20,37 +20,28 @@ namespace AdventOfCode.Quizzes.Y2022
 
         public long Part1()
         {
-            var input = inputProvider.GetInput();
-            var matches = input.Select(x => Regex.Matches(x, @"(\d+),(\d+)").Select(x => (int.Parse(x.Groups[1].Value), int.Parse(x.Groups[2].Value))));
-            (int w, int h) = FindDimensions(matches);
-            var matrix = InitializeMatrix(matches, w, h);
-            var result = Simulate(matrix, 500, 0);
-            DisplayMatrix(matrix);
-
-            return result;
+            var pairs = inputProvider.GetInput().Select(x => Regex.Matches(x, @"(\d+),(\d+)").Select(x => (int.Parse(x.Groups[1].Value), int.Parse(x.Groups[2].Value))));
+            (int w, int h) = FindDimensions(pairs);
+            var matrix = InitializeMatrix(pairs, w, h);
+            return Simulate(matrix, 500, 0);
         }
 
         public long Part2()
         {
-            var input = inputProvider.GetInput();
-            var matches = input.Select(x => Regex.Matches(x, @"(\d+),(\d+)").Select(x => (int.Parse(x.Groups[1].Value), int.Parse(x.Groups[2].Value))));
-            (int w, int h) = FindDimensions(matches);
-            var matrix = InitializeMatrix(matches, w + h + 10, h + 2);
-            AddFloor(matrix);
-            var result = Simulate(matrix, 500, 0);
-            DisplayMatrix(matrix);
-            return result;
+            var pairs = inputProvider.GetInput().Select(x => Regex.Matches(x, @"(\d+),(\d+)").Select(x => (int.Parse(x.Groups[1].Value), int.Parse(x.Groups[2].Value))));
+            (int w, int h) = FindDimensions(pairs);
+            var matrix = InitializeMatrix(pairs, w + h, h + 2, markFloor: true); // account for width and floor
+            return Simulate(matrix, 500, 0);
         }
 
         public (int w, int h) FindDimensions(IEnumerable<IEnumerable<(int, int)>> matches)
         {
-            //var minX = matches.SelectMany(x => x.Select(y => y.Item1)).Min();
             var maxX = matches.SelectMany(x => x.Select(y => y.Item1)).Max();
             var maxY = matches.SelectMany(x => x.Select(y => y.Item2)).Max();
             return (maxX + 1, maxY + 1);
         }
 
-        public char[][] InitializeMatrix(IEnumerable<IEnumerable<(int, int)>> matches, int w, int h)
+        public char[][] InitializeMatrix(IEnumerable<IEnumerable<(int, int)>> matches, int w, int h, bool markFloor = false)
         {
             char[][] m = new char[h][];
             Enumerable.Range(0, h).Select(x => m[x] = new char[w]).ToList();
@@ -71,26 +62,18 @@ namespace AdventOfCode.Quizzes.Y2022
                 }
             }
 
+            if (markFloor) // mark last row as floor with '#'
+                for (int i = 0; i < w; i++)
+                    m[^1][i] = '#';
+
             return m;
-        }
-
-        public void DisplayMatrix(char[][] matrix)
-        {
-            foreach (var row in matrix)
-            {
-                foreach (var col in row)
-                {
-                    Console.Write(col == 0 ? ' ' : col);
-                }
-
-                Console.WriteLine(); 
-            }
         }
 
         public int Simulate(char[][] matrix, int x, int y)
         {
-            int i = 0;
-            for (; i < 1000000; i++)
+            (int width, int height) = (matrix[0].Length, matrix.Length);
+
+            for (int i = 0; ; i++)
             {
                 (int cx, int cy) = (x, y);
 
@@ -99,53 +82,43 @@ namespace AdventOfCode.Quizzes.Y2022
                     if (matrix[cy][cx] == 'o')
                         return i;
 
+                    //abyss
+                    if (cy >= height - 1)
+                        return i;
+
+                    if (cx - 1 <= 0)
+                        return i;
+
+                    if (cx + 1 >= width - 1)
+                        return i;
+
                     // try go bottom
-                    if (cy + 1 < matrix.Length && matrix[cy + 1][cx] == 0)
+                    if (cy + 1 < height && matrix[cy + 1][cx] == 0)
                     {
                         cy++;
                         continue;
                     }
 
                     // bottom left
-                    if (cx - 1 >= 0 && cy + 1 < matrix.Length && matrix[cy+1][cx-1] == 0)
+                    if (cx - 1 >= 0 && cy + 1 < height && matrix[cy+1][cx-1] == 0)
                     {
-                        cx--;
-                        cy++;
+                        cx--; cy++;
                         continue;
                     }
 
                     // bottom right
-                    if (cx + 1 < matrix[0].Length && cy + 1 < matrix.Length && matrix[cy + 1][cx + 1] == 0)
+                    if (cx + 1 < width && cy + 1 < height && matrix[cy + 1][cx + 1] == 0)
                     {
-                        cx++;
-                        cy++;
+                        cx++; cy++;
                         continue;
                     }
-
-                    //abyss
-                    if (cy >= matrix.Length - 1)
-                        return i;
-
-                    if (cx - 1 <= 0)
-                        return i;
-
-                    if (cx + 1 >= matrix[0].Length - 1)
-                        return i;
 
                     matrix[cy][cx] = 'o';
                     break;
                 }
-
             }
 
-            return i;
+            throw new Exception("Should return before reaching here.");
         }
-
-        public void AddFloor(char[][] matrix)
-        {
-            for (int i = 0; i < matrix[0].Length; i++)
-                matrix[matrix.Length - 1][i] = '#';
-        }
-
     }
 }
