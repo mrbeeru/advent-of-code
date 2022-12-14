@@ -1,4 +1,5 @@
-﻿using AdventOfCode.Reader;
+﻿using AdventOfCode.Helpers;
+using AdventOfCode.Reader;
 using MoreLinq;
 using QuikGraph;
 using QuikGraph.Algorithms;
@@ -63,7 +64,7 @@ namespace AdventOfCode.Quizzes.Y2022
                         var nexti = i + di;
                         var nextj = j + dj;
 
-                        if (nexti >= 0 && nexti < h && nextj >= 0 && nextj < w && matrix[nexti][nextj] - level <= 1)
+                        if (Bounds.Contains(matrix, nexti, nextj) && matrix[nexti][nextj] - level <= 1)
                             graph.AddEdge(new Edge<int>(currentIndex, nexti * w + nextj));
                     }
                 }

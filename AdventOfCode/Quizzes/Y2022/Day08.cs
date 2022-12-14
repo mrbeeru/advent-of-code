@@ -1,4 +1,5 @@
-﻿using AdventOfCode.Reader;
+﻿using AdventOfCode.Helpers;
+using AdventOfCode.Reader;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +43,7 @@ namespace AdventOfCode.Quizzes.Y2022
             var i = a + direction.x; 
             var j = b + direction.y;
 
-            while (i >= 0 && j >= 0 && i < forest.Length && j < forest.Length)
+            while (Bounds.Contains(forest, i, j))
             {
                 if (forest[i][j] >= forest[a][b])
                     return false;
@@ -72,11 +73,11 @@ namespace AdventOfCode.Quizzes.Y2022
                 i += direction.x;
                 j += direction.y;
 
-                if (i < 0 || j < 0 || i >= forest.Length || j >= forest.Length)
+                if (!Bounds.Contains(forest, i, j))
                     break;
 
                 score++;
-            } while (i >= 0 && j >= 0 && i < forest.Length && j < forest.Length && forest[i][j] < forest[a][b]);
+            } while (Bounds.Contains(forest, i, j) && forest[i][j] < forest[a][b]);
 
             return score;
         }
