@@ -23,23 +23,31 @@ namespace AdventOfCode.Quizzes.Y2022
             var input = inputProvider.GetInput()
                .Select(x => x.Nums().Chunk(2).ToArray()).ToArray();
 
-            for (int k = start; k <= stop; k++)
+            var result = 0L;
+
+            Parallel.For(start, stop + 1, (k, state) =>
             {
                 var linesK = JoinLines(FindLines(input, k).OrderBy(x => x.Item1));
 
                 if (!linesK.Any())
-                    continue;
-                
+                    return;
+
                 if (isPart1 == true)
-                    return linesK.Sum(x => x.Item2 - x.Item1);
+                {
+                    result = linesK.Sum(x => x.Item2 - x.Item1);
+                    state.Stop();
+                }
                 else
                 {
                     if (linesK.Count() > 1)
-                        return 4_000_000L * (linesK.First().Item2 + 1) + k;
+                    {
+                        result = 4_000_000L * (linesK.First().Item2 + 1) + k;
+                        state.Stop();
+                    }
                 }
-            }
+            });
 
-            throw new Exception("Distress beacon not found.");
+            return result;
         }
 
         private IEnumerable<(int, int)> FindLines(int[][][] input, int k)
