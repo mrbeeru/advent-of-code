@@ -1,60 +1,89 @@
 ﻿using AdventOfCode.Extensions;
 using AdventOfCode.Reader;
 using MoreLinq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
-    public class Day15 : IPartOne<long>
+    public class Day15 : IPartOne<long>, IPartTwo<long>
     {
         private readonly IInputProvider inputProvider;
+        public int K { get; set; } = 2_000_000; // used to pass value 10 in unit testing
 
         public Day15(IInputProvider inputProvider)
         {
             this.inputProvider = inputProvider;
         }
 
-        public long Part1()
+        public long Part1() => Solve(K, K, isPart1: true);
+
+        public long Part2() => Solve(0, 4_000_000, isPart1: false );
+
+        public long Solve(int start, int stop, bool isPart1 = true)
         {
             var input = inputProvider.GetInput()
-                .Select(x => x.Nums().Chunk(2).ToArray()).ToArray();
+               .Select(x => x.Nums().Chunk(2).ToArray()).ToArray();
 
-            int k = 2000000;
-
-            //select (full distance, distance on Y to Y = k) 
-            IEnumerable<(int x, int d, int dy)> dists = input.Select(coords => (coords[0][0],Math.Abs(coords[0][0] - coords[1][0]) + Math.Abs(coords[0][1] - coords[1][1]), Math.Abs(coords[0][1] - k)));
-            var overlapsK = new List<(int, int)>();
-
-            foreach(var dist in dists)
+            for (int k = start; k <= stop; k++)
             {
-                // d = 9 dy = 3 x = 8
-                // 9 - 3 = 6
-                // t = 6 * 2 + 1
-                // x1 = x - 6 x2 = x + 6
+                var linesK = JoinLines(FindLines(input, k).OrderBy(x => x.Item1));
 
-                if (dist.d >= dist.dy)
+                if (!linesK.Any())
+                    continue;
+                
+                if (isPart1 == true)
+                    return linesK.Sum(x => x.Item2 - x.Item1);
+                else
                 {
-                    (int x1, int x2) line = (dist.x - (dist.d - dist.dy), dist.x + (dist.d - dist.dy));
-                    overlapsK.Add(line);
+                    if (linesK.Count() > 1)
+                        return 4_000_000L * (linesK.First().Item2 + 1) + k;
                 }
             }
 
-            (int x1, int x2) = (overlapsK.Select(x => x.Item1).Min(), overlapsK.Select(x => x.Item2).Max());
-            return x2 - x1;
+            throw new Exception("Distress beacon not found.");
         }
 
-        private ((int, int), (int, int)) FindDimensions(int[][][] input)
+        private IEnumerable<(int, int)> FindLines(int[][][] input, int k)
         {
-            int maxX = input.Select(x => x[0][0] > x[1][0] ? x[0][0] : x[1][0]).Max();
-            int maxY = input.Select(x => x[0][1] > x[1][1] ? x[0][1] : x[1][1]).Max();
-            int minX = input.Select(x => x[0][0] < x[1][0] ? x[0][0] : x[1][0]).Min();
-            int minY = input.Select(x => x[0][1] < x[1][1] ? x[0][1] : x[1][1]).Min();
+            //select (sensor x, sensor max distance, delta between k and sensor y) 
+            IEnumerable<(int x, int d, int dy)> dists = input.Select(coords => (coords[0][0], Math.Abs(coords[0][0] - coords[1][0]) + Math.Abs(coords[0][1] - coords[1][1]), Math.Abs(coords[0][1] - k)));
+            var lines = new List<(int, int)>();
 
-            return ((minX, minY), (maxX, maxY));
+            foreach (var dist in dists)
+            {
+                if (dist.d >= dist.dy)
+                {
+                    (int x1, int x2) line = (dist.x - (dist.d - dist.dy), dist.x + (dist.d - dist.dy));
+                    lines.Add(line);
+                }
+            }
+
+            return lines;
+        }
+
+        private IEnumerable<(int, int)> JoinLines(IEnumerable<(int, int)> lineSegments)
+        {
+            var output = new List<(int, int)>();
+
+            if (!lineSegments.Any())
+                return output;
+
+            lineSegments = lineSegments.OrderBy(x => x.Item1);
+            var current = lineSegments.First();
+
+            foreach (var next in lineSegments.Skip(1))
+            {
+                if (next.Item1 > current.Item2)
+                {
+                    // we have a break
+                    output.Add(current);
+                    current = next;
+                }
+                else
+                    current = (current.Item1, Math.Max(current.Item2, next.Item2));
+            }
+
+            output.Add(current);
+            return output;
         }
     }
 }

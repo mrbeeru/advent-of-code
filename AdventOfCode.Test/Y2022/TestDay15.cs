@@ -13,7 +13,16 @@ namespace AdventOfCode.Test.Y2022
         public void Part1()
         {
             var a = new Day15(InputProvider);
+            a.K = 10;
+
             Assert.Equal(26, a.Part1());
+        }
+
+        [Fact]
+        public void Part2()
+        {
+            var a = new Day15(InputProvider);
+            Assert.Equal(56000011, a.Part2());
         }
 
         protected override string[] AocInput()
@@ -34,7 +43,7 @@ namespace AdventOfCode.Test.Y2022
                 "Sensor at x=16, y=7: closest beacon is at x=15, y=3",
                 "Sensor at x=14, y=3: closest beacon is at x=15, y=3",
                 "Sensor at x=20, y=1: closest beacon is at x=15, y=3",
-            } ;
+            };
         }
     }
 }
