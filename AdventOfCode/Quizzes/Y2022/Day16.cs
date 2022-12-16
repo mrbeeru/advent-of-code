@@ -1,8 +1,9 @@
 ﻿using AdventOfCode.Extensions;
 using AdventOfCode.Reader;
-using MoreLinq;
 using QuikGraph;
 using QuikGraph.Algorithms;
+using static MoreLinq.Extensions.SubsetsExtension;
+using static MoreLinq.Extensions.ForEachExtension;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,46 +15,74 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
-    public class Day16 : IPartOne<long>
+    public class Day16 : IPartOne<long>, IPartTwo<long>
     {
-        private readonly IInputProvider inputProvider;
-
+        readonly IInputProvider inputProvider;
         Dictionary<string, Valve> map = new();
+        Dictionary<(string, string), int> lengths = new();
         AdjacencyGraph<string, Edge<string>> graph;
         List<Valve> valveList = new();
+        int maxScore = 0;
 
         public Day16(IInputProvider inputProvider) => this.inputProvider = inputProvider;
 
         public long Part1()
         {
             (var root, graph, map) = Parse();
-            valveList = map.Select(x => x.Value).Where(x => x.Pressure != 0).ToList();
+            valveList = map.Select(x => x.Value).Where(x => x.Pressure != 0 || x.ID == "AA").ToList();
+            ComputeLengths();
+            Search(new List<Valve> { map["AA"] }, 0, 0, maxTime: 30);
+            return maxScore;
+        }
 
-            var score = 0;
-            var len = 0;
-            Search(new List<Valve> { map["AA"] }, len, score);
+        public long Part2()
+        {
+            (var root, graph, map) = Parse();
+            valveList = map.Select(x => x.Value).Where(x => x.Pressure != 0 || x.ID == "AA").ToList();
+            ComputeLengths();
+            Search2(new List<Valve> { map["AA"] }, 0, 0, 0, maxTime: 26);
 
             return maxScore;
         }
 
-        int maxScore = 0;
-        private void Search(List<Valve> result, int totalLength, int score)
+        private void Search(List<Valve> result, int totalLength, int score, int maxTime)
         {
             maxScore = Math.Max(score, maxScore);
             foreach (var a in valveList.Except(result))
             {
-                var length = Length(result.Last().ID, a.ID);
+                var length = lengths[(result.Last().ID, a.ID)];
 
-                if (totalLength + length < 30)
+                if (totalLength + length < maxTime)
                 {
                     result.Add(a);
-                    Search(result, totalLength + length + 1, score +  (30 - totalLength - length - 1) * a.Pressure);
+                    Search(result, totalLength + length + 1, score +  (maxTime - totalLength - length - 1) * a.Pressure, maxTime);
                     maxScore = Math.Max(score, maxScore);
                     result.Remove(a);
                 }
 
-                if (result.Count == 1)
-                    Console.WriteLine("yey");
+                //if (result.Count == 2)
+                    //Console.WriteLine("yey");
+            }
+        }
+
+        private void Search2(List<Valve> result, int lengthMan, int lengthElephant, int score, int maxTime)
+        {
+           
+        }
+
+
+        private void ComputeLengths()
+        {
+            for (int i = 0; i < valveList.Count; i++)
+            {
+                for (int j = 0; j < valveList.Count; j++)
+                {
+                    if (i == j)
+                        continue;
+
+                    var len = Length(valveList[i].ID, valveList[j].ID);
+                    lengths[(valveList[i].ID, valveList[j].ID)] = len;
+                }
             }
         }
 
@@ -91,15 +120,6 @@ namespace AdventOfCode.Quizzes.Y2022
             }
 
             return (map["AA"], graph, map);
-        }
-
-        private AdjacencyGraph<string, Edge<string>> BuildGraph()
-        {
-            var graph = new AdjacencyGraph<string, Edge<string>>();
-
-
-
-            return graph;
         }
 
         [DebuggerDisplay("{ID} : {Pressure}")]
