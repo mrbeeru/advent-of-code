@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
-    public class Day16 : IPartOne<long>, IPartTwo<long>
+    public class Day16 : IPartOne<long>
     {
         readonly IInputProvider inputProvider;
         Dictionary<string, Valve> map = new();
@@ -32,16 +32,6 @@ namespace AdventOfCode.Quizzes.Y2022
             valveList = map.Select(x => x.Value).Where(x => x.Pressure != 0 || x.ID == "AA").ToList();
             ComputeLengths();
             Search(new List<Valve> { map["AA"] }, 0, 0, maxTime: 30);
-            return maxScore;
-        }
-
-        public long Part2()
-        {
-            (var root, graph, map) = Parse();
-            valveList = map.Select(x => x.Value).Where(x => x.Pressure != 0 || x.ID == "AA").ToList();
-            ComputeLengths();
-            Search2(new List<Valve> { map["AA"] }, 0, 0, 0, maxTime: 26);
-
             return maxScore;
         }
 
@@ -64,12 +54,6 @@ namespace AdventOfCode.Quizzes.Y2022
                     //Console.WriteLine("yey");
             }
         }
-
-        private void Search2(List<Valve> result, int lengthMan, int lengthElephant, int score, int maxTime)
-        {
-           
-        }
-
 
         private void ComputeLengths()
         {
