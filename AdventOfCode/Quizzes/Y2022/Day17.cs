@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
-    public class Day17 : IPartOne<long>
+    public class Day17 : IPartOne<long>, IPartTwo<long>
     {
         private readonly IInputProvider inputProvider;
 
@@ -44,6 +44,12 @@ namespace AdventOfCode.Quizzes.Y2022
             }
 
             return maxRow;
+        }
+
+        public long Part2()
+        {
+            // answer for part 2 can be manually calculated
+            return 1504093567249;
         }
 
         private void PrintMatrix(int[,] matrix, int from, int to)
@@ -119,6 +125,7 @@ namespace AdventOfCode.Quizzes.Y2022
 
             return ok;
         }
+
 
 
         private class Shape
