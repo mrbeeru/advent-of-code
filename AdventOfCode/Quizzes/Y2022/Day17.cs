@@ -47,11 +47,11 @@ namespace AdventOfCode.Quizzes.Y2022
             var colDir = jet == '<' ? -1 : 1;
 
             //check bounds
-            if (shape.Col + colDir < 0 || shape.Col + shape.Pos.Max(x => x.Item2) + colDir > 6)
+            if (shape.Col + colDir < 0 || shape.Col + shape.Parts.Max(x => x.Item2) + colDir > 6)
                 return;
 
             //check collisions between shapes horizontally
-            if (shape.Pos.All(coord => matrix[shape.Row + coord.Item1, shape.Col + coord.Item2 + colDir] == 0))
+            if (shape.Parts.All(coord => matrix[shape.Row + coord.Item1, shape.Col + coord.Item2 + colDir] == 0))
                 shape.Col += colDir;
         }
 
@@ -61,7 +61,7 @@ namespace AdventOfCode.Quizzes.Y2022
                 return false;
 
             // check collisions between shapes with below row
-            if (shape.Pos.All(coords => matrix[shape.Row + coords.row - 1, shape.Col + coords.col] == 0))
+            if (shape.Parts.All(coords => matrix[shape.Row + coords.row - 1, shape.Col + coords.col] == 0))
             {
                 shape.Row--;
                 return true;
@@ -72,27 +72,27 @@ namespace AdventOfCode.Quizzes.Y2022
 
         private int Cement(int[,] matrix, Shape shape)
         {
-            foreach (var pos in shape.Pos)
+            foreach (var pos in shape.Parts)
                 matrix[shape.Row + pos.row, shape.Col + pos.col] = 1; // 1 marks as cemented
 
-            return shape.Row + shape.Pos.Select(x => x.row).Max(); // returns top row where this shape is cemented
+            return shape.Row + shape.Parts.Select(x => x.row).Max(); // returns top row where this shape is cemented
         }
 
         private class Shape
         {
             public int Row { get; set; }
             public int Col { get; set; }
-            public List<(int row, int col)> Pos { get; set; }
+            public (int row, int col)[] Parts { get; set; }
 
             public static Shape Create(int kind, int row, int col)
             {
                 return kind switch
                 {
-                    0 => new Shape() { Row = row, Col = col, Pos = new[] { (0, 0), (0, 1), (0, 2), (0, 3) }.ToList() },
-                    1 => new Shape() { Row = row, Col = col, Pos = new[] { (0, 1), (1, 0), (1, 1), (1, 2), (2, 1) }.ToList() },
-                    2 => new Shape() { Row = row, Col = col, Pos = new[] { (0, 0), (0, 1), (0, 2), (1, 2), (2, 2) }.ToList() },
-                    3 => new Shape() { Row = row, Col = col, Pos = new[] { (0, 0), (1, 0), (2, 0), (3, 0) }.ToList() },
-                    4 => new Shape() { Row = row, Col = col, Pos = new[] { (0, 0), (0, 1), (1, 0), (1, 1) }.ToList() },
+                    0 => new Shape() { Row = row, Col = col, Parts = new[] { (0, 0), (0, 1), (0, 2), (0, 3) } },
+                    1 => new Shape() { Row = row, Col = col, Parts = new[] { (0, 1), (1, 0), (1, 1), (1, 2), (2, 1) } },
+                    2 => new Shape() { Row = row, Col = col, Parts = new[] { (0, 0), (0, 1), (0, 2), (1, 2), (2, 2) } },
+                    3 => new Shape() { Row = row, Col = col, Parts = new[] { (0, 0), (1, 0), (2, 0), (3, 0) } },
+                    4 => new Shape() { Row = row, Col = col, Parts = new[] { (0, 0), (0, 1), (1, 0), (1, 1) } },
                     _ => throw new Exception("Invalid shape kind.")
                 };
             }
