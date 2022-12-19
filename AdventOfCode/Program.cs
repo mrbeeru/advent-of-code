@@ -21,7 +21,7 @@ void Run(Options opt)
     var end = Stopwatch.GetElapsedTime(start);
 
     Console.WriteLine(result);
-    Console.WriteLine($"Ran for {end.Milliseconds / 1000.0} seconds.");
+    Console.WriteLine($"Ran for {end.TotalMilliseconds / 1000.0} seconds.");
 }
 
 void Show(ShowVerb opt)
