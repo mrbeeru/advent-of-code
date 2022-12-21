@@ -25,31 +25,44 @@ namespace AdventOfCode.Quizzes.Y2022
         {
             (Monkey root, Monkey human) = Parse();
 
-            var guess = 1L;
-            long UB = long.MaxValue - 1;
-            long LB = 0;
+            var me = root.Right;
+            var other = root.Left;
+            human.Value = 0; //change human value to see if we are left of root or right of root
 
-            // works only on my input, need to determine the inequalities
-            while (root.Right.TotalValue != root.Left.TotalValue)
+            if (root.Right.TotalValue == me.TotalValue)
+            {
+                me = root.Left;
+                other = root.Right;    
+            }
+
+            long UB = long.MaxValue;
+            long LB = 0;
+            var guess = UB/2;
+            var val = me.TotalValue;
+            human.Value = 100; //change human value to see if root value goes up or down
+            var direction = me.TotalValue > val ? 1 : -1;
+
+            while (me.TotalValue != other.TotalValue)
             {
                 human.Value = guess;
 
-                if (root.Right.TotalValue < root.Left.TotalValue)
+                if (me.TotalValue < other.TotalValue)
                 {
-                    LB = Math.Max(LB, guess);
+                    UB = direction == -1 ? Math.Min(UB, guess) : UB;
+                    LB = direction == +1 ? Math.Max(LB, guess) : LB;
                     guess = (LB + UB) / 2;
                 }
-                else if (root.Right.TotalValue > root.Left.TotalValue)
+                else if (me.TotalValue > other.TotalValue)
                 {
-                    UB = Math.Min(UB, guess);
+                    UB = direction == +1 ? Math.Min(UB, guess) : UB;
+                    LB = direction == -1 ? Math.Max(LB, guess) : LB;
                     guess = (LB + UB) / 2;
-
                 }
                 else
                     return guess;
             }
 
-            throw new Exception("Something went wrong.");
+            return human.Value;
         }
 
         private (Monkey root, Monkey human) Parse()
