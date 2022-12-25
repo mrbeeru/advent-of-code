@@ -18,28 +18,27 @@ namespace AdventOfCode.Quizzes.Y2022
 
         public long Part1()
         {
-            var (blizzards, rows, cols) = Parse();
+            var (blizzards, dims, endPos) = Parse();
             var activeState = new HashSet<(int, int)> { (0, 1) };
-            var endPosition = (26,120);
-            return FindSmallestTime(blizzards, activeState, (rows, cols), endPosition);
+            return FindSmallestTime(blizzards, activeState, dims, endPos);
         }
 
         public long Part2()
         {
-            var (blizzards, rows, cols) = Parse();
+            var (blizzards, dims, endPos) = Parse();
+            var startPos = (0, 1);
+            var activeState = new HashSet<(int, int)> { startPos };
+            var time =  FindSmallestTime(blizzards, activeState, dims, endPos);
 
-            //make 3 trips: start -> finish -> start -> finish
-            var activeState = new HashSet<(int, int)> { (0, 1) };
-            var endPosition = (26, 120);
-            var time =  FindSmallestTime(blizzards, activeState, (rows, cols), endPosition);
+            startPos = endPos;
+            activeState = new HashSet<(int, int)> { startPos };
+            endPos = (0,1);
+            time += FindSmallestTime(blizzards, activeState, dims, endPos);
 
-            endPosition = (0, 1);
-            activeState = new HashSet<(int, int)> { (26, 120) };
-            time += FindSmallestTime(blizzards, activeState, (rows, cols), endPosition);
-
-            activeState = new HashSet<(int, int)> { (0, 1) };
-            endPosition = (26, 120);
-            time += FindSmallestTime(blizzards, activeState, (rows, cols), endPosition);
+            endPos = startPos;
+            startPos = (0,1);
+            activeState = new HashSet<(int, int)> { startPos };
+            time += FindSmallestTime(blizzards, activeState, dims, endPos);
 
             return time;
         }
@@ -80,7 +79,7 @@ namespace AdventOfCode.Quizzes.Y2022
             throw new Exception("Will loop indefinitely anyway so this won't be ever thrown.");
         }
 
-        private (List<Blizzard>, int rows, int cols) Parse()
+        private (List<Blizzard>, (int rows, int cols), (int row, int col)) Parse()
         {
             var lines = inputProvider.GetInput().ToArray();
 
@@ -106,7 +105,7 @@ namespace AdventOfCode.Quizzes.Y2022
                 }
             }
 
-            return (output, rows, columns);
+            return (output, (rows, columns), (lines.Length - 1, lines.Last().Length - 2));
         }
 
         private void UpdateBlizzardPositions(List<Blizzard> blizzards, (int rows, int cols) dims)
