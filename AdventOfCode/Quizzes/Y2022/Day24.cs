@@ -133,16 +133,11 @@ namespace AdventOfCode.Quizzes.Y2022
         }
 
         [DebuggerDisplay("[{Row} {Col}]")]
-        private class Blizzard : IEquatable<Blizzard>
+        private class Blizzard
         {
             public int Row { get; set; }
             public int Col { get; set; }
             public (int row, int col) Direction { get; set; }
-
-            public bool Equals(Blizzard? other)
-            {
-                return Row == other.Row && Col == other.Col && other.Direction == Direction;
-            }
         }
     }
 }
