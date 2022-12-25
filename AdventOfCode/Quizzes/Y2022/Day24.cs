@@ -51,7 +51,6 @@ namespace AdventOfCode.Quizzes.Y2022
                 UpdateBlizzardPositions(blizzards, dims);
                 var bhs = blizzards.Select(x => (x.Row, x.Col)).ToHashSet();
 
-                //expand, runs slow because of this
                 foreach (var state in activeState.ToList())
                 {
                     foreach (var dir in directions)
@@ -73,7 +72,6 @@ namespace AdventOfCode.Quizzes.Y2022
                 //remove positions lost in the blizzard
                 activeState.RemoveWhere(bhs.Contains);
                 time++;
-                //Console.WriteLine($"Time: {time}");
             }
 
             throw new Exception("Will loop indefinitely anyway so this won't be ever thrown.");
