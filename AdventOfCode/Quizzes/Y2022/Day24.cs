@@ -46,7 +46,7 @@ namespace AdventOfCode.Quizzes.Y2022
         {
             int time = 0;
 
-            while (!activeState.Contains(endPosition))
+            while (true)
             {
                 UpdateBlizzardPositions(blizzards, dims);
                 var bhs = blizzards.Select(x => (x.Row, x.Col)).ToHashSet();
