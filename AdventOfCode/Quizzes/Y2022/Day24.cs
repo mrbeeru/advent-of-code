@@ -1,5 +1,4 @@
 ﻿using AdventOfCode.Reader;
-using MoreLinq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -47,9 +46,10 @@ namespace AdventOfCode.Quizzes.Y2022
         {
             int time = 0;
 
-            while(!activeState.Contains(endPosition))
+            while (!activeState.Contains(endPosition))
             {
                 UpdateBlizzardPositions(blizzards, dims);
+                var bhs = blizzards.Select(x => (x.Row, x.Col)).ToHashSet();
 
                 //expand, runs slow because of this
                 foreach (var state in activeState.ToList())
@@ -63,7 +63,7 @@ namespace AdventOfCode.Quizzes.Y2022
                         if ((nextRow, nextCol) == endPosition)
                             return time + 1;
 
-                        if (blizzards.Any(x => x.Row == nextRow && x.Col == nextCol) || (nextRow < 1 || nextCol < 1 || nextRow >= dims.rows - 1 || nextCol >= dims.cols - 1))
+                        if (bhs.Contains((nextRow, nextCol)) || IsOutOfBounds(nextRow, nextCol, dims))
                             continue;
 
                         activeState.Add((nextRow, nextCol));
@@ -71,12 +71,17 @@ namespace AdventOfCode.Quizzes.Y2022
                 }
 
                 //remove positions lost in the blizzard
-                activeState.RemoveWhere(x => blizzards.Any(y => y.Row == x.row && y.Col == x.col));
+                activeState.RemoveWhere(bhs.Contains);
                 time++;
-                Console.WriteLine($"Time: {time}");
+                //Console.WriteLine($"Time: {time}");
             }
 
             throw new Exception("Will loop indefinitely anyway so this won't be ever thrown.");
+        }
+
+        private bool IsOutOfBounds(int row, int col, (int rows, int cols) dim)
+        {
+            return (row < 1 || col < 1 || row >= dim.rows - 1 || col >= dim.cols - 1);
         }
 
         private (List<Blizzard>, (int rows, int cols), (int row, int col)) Parse()
@@ -130,11 +135,16 @@ namespace AdventOfCode.Quizzes.Y2022
         }
 
         [DebuggerDisplay("[{Row} {Col}]")]
-        private class Blizzard
+        private class Blizzard : IEquatable<Blizzard>
         {
             public int Row { get; set; }
             public int Col { get; set; }
             public (int row, int col) Direction { get; set; }
+
+            public bool Equals(Blizzard? other)
+            {
+                return Row == other.Row && Col == other.Col && other.Direction == Direction;
+            }
         }
     }
 }
