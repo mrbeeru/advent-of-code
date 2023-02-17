@@ -1,4 +1,5 @@
-﻿using AdventOfCode.Reader;
+﻿using AdventOfCode.Helpers;
+using AdventOfCode.Reader;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -34,29 +35,27 @@ namespace AdventOfCode.Quizzes.Y2015
             return DeliverPresents(set1).Union(DeliverPresents(set2)).Count();
         }
 
-        private HashSet<(int, int)> DeliverPresents(IEnumerable<char> directions)
+        private static HashSet<Coords2D> DeliverPresents(IEnumerable<char> directions)
         {
-            var dirs = (char dir) => dir switch {
-                '^' => (-1, 0),
-                'v' => (1, 0),
-                '<' => (0, -1),
-                '>' => (0, 1),
-                _ => throw new Exception("invalid direction")
-            };
-
-            var hashset = new HashSet<(int row, int col)>();
-            (int row, int col) current = (0, 0);
-
-            hashset.Add(current);
+            var current = new Coords2D(0,0);
+            var visited = new HashSet<Coords2D>() { current };
 
             foreach (var next in directions)
             {
-                var dir = dirs(next);
-                current = (current.row + dir.Item1, current.col + dir.Item2);
-                hashset.Add(current);
+                var dir = next switch
+                {
+                    '^' => Coords2D.Up,
+                    'v' => Coords2D.Down,
+                    '<' => Coords2D.Left,
+                    '>' => Coords2D.Right,
+                    _ => throw new Exception("invalid direction")
+                };
+
+                current += dir;
+                visited.Add(current);
             }
 
-            return hashset;
+            return visited;
         }
     }
 }
