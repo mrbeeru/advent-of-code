@@ -10,7 +10,7 @@ namespace AdventOfCode.Quizzes.Y2015
     /// <summary>
     /// https://adventofcode.com/2015/day/2
     /// </summary>
-    internal class Day02 : IPartOne<long>, IPartTwo<long>
+    public class Day02 : IPartOne<long>, IPartTwo<long>
     {
         private readonly IInputProvider inputProvider;
 
