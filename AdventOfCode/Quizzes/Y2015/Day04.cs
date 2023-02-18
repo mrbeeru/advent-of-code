@@ -33,13 +33,12 @@ namespace AdventOfCode.Quizzes.Y2015
         private long FindAnswer(string key, string condition)
         {
             int iteration = 0;
-            using MD5 md5 = MD5.Create();
 
             while (true)
             {
                 var answer = $"{key}{iteration}";
                 byte[] inputBytes = Encoding.ASCII.GetBytes(answer);
-                byte[] hashBytes = md5.ComputeHash(inputBytes);
+                byte[] hashBytes = MD5.HashData(inputBytes);
 
                 var result = Convert.ToHexString(hashBytes);
                 if (result.StartsWith(condition))
