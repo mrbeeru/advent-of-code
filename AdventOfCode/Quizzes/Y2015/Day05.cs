@@ -12,7 +12,6 @@ namespace AdventOfCode.Quizzes.Y2015
     public class Day05 : IPartOne<long>, IPartTwo<long>
     {
         private readonly IInputProvider inputProvider;
-        private delegate bool Rule(string input);
 
         public Day05(IInputProvider inputProvider)
         {
@@ -59,17 +58,10 @@ namespace AdventOfCode.Quizzes.Y2015
 
         private bool PairNoOverlapRule(string input)
         {
-            var pairs = input.Window(2).Select(x => $"{x[0]}{x[1]}").ToList();
-            var found = false;
-
-            for (int i = 0; i < pairs.Count; i++)
-            {
-                var pair = pairs[i];
-                found |= new string(input.Skip(i + 2).ToArray()).Contains(pair);
-            }
-
-
-            return found;
+            return input
+                .Window(2)
+                .Where((x, i) => input.Substring(i + 2).Contains($"{x[0]}{x[1]}"))
+                .Any();
         }
     }
 }
