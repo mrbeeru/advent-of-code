@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode.Helpers
 {
-    public record class Coords2D(double X, double Y)
+    public record class Coords2D(int X, int Y)
     {
         public static readonly Coords2D Up = new(-1, 0);
         public static readonly Coords2D Down = new(1, 0);
