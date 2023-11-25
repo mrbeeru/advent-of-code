@@ -45,7 +45,7 @@ namespace AdventOfCode.Reader
 
             if (response.IsSuccessStatusCode)
             {
-                var data = response.Content.ReadAsStringAsync().Result;
+                var data = response.Content.ReadAsStringAsync().Result.TrimEnd();
                 quizzCache.Set(cacheKey, data);
                 return data.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
             }
