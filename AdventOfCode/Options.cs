@@ -19,9 +19,6 @@ namespace AdventOfCode
 
         [Option('p', "part", Required = true, HelpText = "Advent of Code part.", SetName = "grp")]
         public int Part { get; set; }
-
-        [Option("filepath", Required = false, HelpText = "Advent of Code input from file.", SetName = "grp")]
-        public string FilePath { get; set; }
     }
 
     [Verb("ls", HelpText = "Displays a list of all available quizzes.")]

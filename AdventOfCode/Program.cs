@@ -7,14 +7,13 @@ using System.Diagnostics;
 
 
 Parser.Default.ParseArguments<Options, ShowVerb>(args)
-    .WithParsed<Options>((opt) => Run(opt))
-    .WithParsed<ShowVerb>((opt) => Show(opt));
-
+    .WithParsed<Options>(Run)
+    .WithParsed<ShowVerb>(Show);
 
 void Run(Options opt)
 {
-    var fileInputReader = new FileInputReader(opt.FilePath ?? $"Quizzes/Y{opt.Year}/input{opt.Day:00}.txt");
-    var (instance, method) = Resolver.Resolve(opt.Year, opt.Day, opt.Part, fileInputReader);
+    var httpInputReader = new HttpInputReader(opt.Year, opt.Day);
+    var (instance, method) = Resolver.Resolve(opt.Year, opt.Day, opt.Part, httpInputReader);
 
     var start = Stopwatch.GetTimestamp();
     var result = method.Invoke(instance, null);
