@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AdventOfCode.Quizzes.Y2023
 {
@@ -56,11 +57,10 @@ namespace AdventOfCode.Quizzes.Y2023
 
         private static long FindCalibationValue(IEnumerable<string> input)
         {
-            var result = input.Select(x => x.Nums()
-                  .Select(y => y.ToString()))
-                  .Select(innerList => (innerList.First()[0], innerList.Last()[^1]))
-                  .Select(x => int.Parse($"{x.Item1}{x.Item2}"))
-                  .Sum();
+            var result = input
+                .Select(line => line.Nums().Select(num => num.ToString()))
+                .Select(numStr => int.Parse($"{numStr.First()[0]}{numStr.Last()[^1]}"))
+                .Sum();
             return result;
         }
     }
