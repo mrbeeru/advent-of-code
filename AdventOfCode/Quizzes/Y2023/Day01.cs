@@ -28,6 +28,7 @@ namespace AdventOfCode.Quizzes.Y2023
         {
             var input = inputProvider.GetInput();
 
+            // worked on my input when I tried, but this fails in certain cases e.g 'twoneight'
             var wordToNumber = new (string word, string number)[]
             {
                 ("oneight", "18"),
