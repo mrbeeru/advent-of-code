@@ -38,12 +38,15 @@ namespace AdventOfCode.Quizzes.Y2023
 
         static Dictionary<string, int> MaxGameBallsByColor(string game)
         {
+            var map = new Dictionary<string, int> { { "red", 1 }, { "green", 1 }, { "blue", 1 } };
             var matches = Regex.Matches(game, @"(\d+) (red|green|blue)");
 
-            var map = matches
-                .Select(x => new { Color = x.Groups[2].Value, Count = int.Parse(x.Groups[1].Value) })
-                .GroupBy(b => b.Color)
-                .ToDictionary(group => group.Key, group => group.Max(b => b.Count));
+            foreach (var match in matches.Cast<Match>())
+            {
+                var color = match.Groups[2].Value;
+                var count = int.Parse(match.Groups[1].Value);
+                map[color] = Math.Max(map[color], count);
+            }
 
             return map;
         }
