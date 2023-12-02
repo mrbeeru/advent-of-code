@@ -40,11 +40,10 @@ namespace AdventOfCode.Quizzes.Y2023
         {
             var matches = Regex.Matches(game, @"(\d+) (red|green|blue)");
 
-            //an array like: [("red", 3), ("blue", 1)]
-            var balls = matches.Select(x => new { Color = x.Groups[2].Value, Count = int.Parse(x.Groups[1].Value) });
-
-            var map = new Dictionary<string, int> { { "red", 1 }, { "green", 1 }, { "blue", 1 } };
-            balls.ForEach((b) => map[b.Color] = Math.Max(map[b.Color], b.Count));
+            var map = matches
+                .Select(x => new { Color = x.Groups[2].Value, Count = int.Parse(x.Groups[1].Value) })
+                .GroupBy(b => b.Color)
+                .ToDictionary(group => group.Key, group => group.Max(b => b.Count));
 
             return map;
         }
