@@ -40,22 +40,23 @@ namespace AdventOfCode.Quizzes.Y2023
         static Dictionary<(int, int), IList<int>> BuildSymbolToAdjacentValuesMap(IList<string> input)
         {
             var map = new Dictionary<(int, int), IList<int>>();
+            var matrix = input.Select(x => x.ToArray()).ToArray();
 
-            input.ForEach((line, lineIndex) => Regex.Matches(line, @"\d+").ForEach(m => CheckMatch(m, lineIndex, input, map)));
+            input.ForEach((line, lineIndex) => Regex.Matches(line, @"\d+").ForEach(m => CheckMatch(m, lineIndex, matrix, map)));
 
             return map;
         }
 
-        static void CheckMatch(Match match, int lineNumber, IList<string> input, Dictionary<(int, int), IList<int>> map)
+        static void CheckMatch(Match match, int lineNumber, char[][] matrix, Dictionary<(int, int), IList<int>> map)
         {
             for (int i = lineNumber - 1; i <= lineNumber + 1; i++)
             {
                 for (int j = match.Index - 1; j < match.Index + match.Value.Length + 1; j++)
                 {
-                    if (!Bounds.Within(input[lineNumber].Length, input.Count, i, j))
+                    if (!(i, j).Within(matrix)) 
                         continue;
 
-                    if (char.IsDigit(input[i][j]) || input[i][j] == '.')
+                    if (char.IsDigit(matrix[i][j]) || matrix[i][j] == '.')
                         continue;
 
                     if (!map.ContainsKey((i, j)))
