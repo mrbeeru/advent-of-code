@@ -22,7 +22,7 @@ namespace AdventOfCode.Quizzes.Y2023
         public long Part1()
         {
             var input = inputProvider.GetInput();
-            var map = Collect(input);
+            var map = BuildSymbolToAdjacentValuesMap(input);
 
             return map.Where(pair => pair.Value.Count > 0).Sum(pair => pair.Value.Sum());
         }
@@ -30,14 +30,14 @@ namespace AdventOfCode.Quizzes.Y2023
         public long Part2()
         {
             var input = inputProvider.GetInput();
-            var map = Collect(input);
+            var map = BuildSymbolToAdjacentValuesMap(input);
 
             return map.Where(pair => input[pair.Key.Item1][pair.Key.Item2] == '*' && pair.Value.Count == 2)
                       .Select(kv => kv.Value[0] * kv.Value[1])
                       .Sum();
         }
 
-        static Dictionary<(int, int), IList<int>> Collect(IList<string> input)
+        static Dictionary<(int, int), IList<int>> BuildSymbolToAdjacentValuesMap(IList<string> input)
         {
             var map = new Dictionary<(int, int), IList<int>>();
 
