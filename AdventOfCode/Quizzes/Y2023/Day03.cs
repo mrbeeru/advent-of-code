@@ -22,17 +22,14 @@ namespace AdventOfCode.Quizzes.Y2023
         public long Part1()
         {
             var input = inputProvider.GetInput();
-            var map = new Dictionary<(int, int), IList<int>>();
+            var map = Collect(input);
 
-            var value = input.Select((line, lineIndex) => Regex.Matches(line, @"\d+").Select(m => CheckMatch(m, lineIndex, input, map)).Sum()).Sum();
-
-            return value;
+            return map.Where(pair => pair.Value.Count > 0).Sum(pair => pair.Value.Sum());
         }
 
         public long Part2()
         {
             var input = inputProvider.GetInput();
-
             var map = Collect(input);
 
             return map.Where(pair => input[pair.Key.Item1][pair.Key.Item2] == '*' && pair.Value.Count == 2)
@@ -49,10 +46,8 @@ namespace AdventOfCode.Quizzes.Y2023
             return map;
         }
 
-        static int CheckMatch(Match match, int lineNumber, IList<string> input, Dictionary<(int, int), IList<int>> map)
+        static void CheckMatch(Match match, int lineNumber, IList<string> input, Dictionary<(int, int), IList<int>> map)
         {
-            var flag = false;
-
             for (int i = lineNumber - 1; i <= lineNumber + 1; i++)
             {
                 for (int j = match.Index - 1; j < match.Index + match.Value.Length + 1; j++)
@@ -67,11 +62,8 @@ namespace AdventOfCode.Quizzes.Y2023
                         map[(i, j)] = new List<int>();
 
                     map[(i, j)].Add(int.Parse(match.Value));
-                    flag = true;
                 }
             }
-
-            return flag ? int.Parse(match.Value) : 0;
         }
     }
 }
