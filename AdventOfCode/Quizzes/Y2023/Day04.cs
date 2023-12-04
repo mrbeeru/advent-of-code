@@ -34,7 +34,7 @@ namespace AdventOfCode.Quizzes.Y2023
         {
             return inputProvider.GetInput().Reverse()
                 .Select(line => line.Nums())                                                
-                .Select(nums => (winning: nums.Skip(1).Take(10), others: nums.Skip(11)))                    
+                .Select(nums => (nums.Skip(1).Take(10), nums.Skip(11)))                    
                 .Select((pair, idx) => (cnt: pair.Item1.Intersect(pair.Item2).Count(), idx))     
                 .Aggregate(new List<int>(), (l, pair) => l.Append(l.Skip(pair.idx - pair.cnt).Take(pair.cnt).Sum() + 1).ToList())
                 .Sum();
