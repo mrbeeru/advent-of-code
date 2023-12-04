@@ -32,20 +32,12 @@ namespace AdventOfCode.Quizzes.Y2023
 
         public long Part2()
         {
-            var lines = inputProvider.GetInput().Reverse();
-            var list = new List<int>();
-
-            foreach (var (line, i) in lines.Select((line, i) => (line, i)))
-            {
-                var nums = line.Nums();
-                var winning = nums.Skip(1).Take(10);
-                var cardNums = nums.Skip(11);
-                var intersectionCount = winning.Intersect(cardNums).Count();
-                var sum = list.Skip(i - intersectionCount).Take(intersectionCount).Sum();
-                list.Add(sum + 1);
-            }
-
-            return list.Sum();
+            return inputProvider.GetInput().Reverse()
+                .Select(line => line.Nums())                                                
+                .Select(nums => (winning: nums.Skip(1).Take(10), others: nums.Skip(11)))                    
+                .Select((pair, idx) => (cnt: pair.Item1.Intersect(pair.Item2).Count(), idx))     
+                .Aggregate(new List<int>(), (l, pair) => l.Append(l.Skip(pair.idx - pair.cnt).Take(pair.cnt).Sum() + 1).ToList())
+                .Sum();
         }
     }
 }
