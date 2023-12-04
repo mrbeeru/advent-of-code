@@ -41,7 +41,7 @@ namespace AdventOfCode.Quizzes.Y2023
                 var winning = nums.Skip(1).Take(10);
                 var cardNums = nums.Skip(11);
                 var intersectionCount = winning.Intersect(cardNums).Count();
-                var sum = list.Where((x, index) => index <= i - 1 && index > i - 1 - intersectionCount).Sum();
+                var sum = list.Skip(i - intersectionCount).Take(intersectionCount).Sum();
                 list.Add(sum + 1);
             }
 
