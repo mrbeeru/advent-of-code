@@ -12,14 +12,22 @@ namespace AdventOfCode.Reader
     internal class QuizzCache
     {
         string GetLocation(string key) => $"quiz_input_cache/{key}.txt";
+        string? cachedInput = null;
 
         public bool TryGet(CacheKey key, out string value)
         {
+            if (cachedInput != null)
+            {
+                value = cachedInput;
+                return true;
+            }
+
             try
             {
                 var md5key = ComputeMD5Hash(key);
                 var location = GetLocation(md5key);
                 value = File.ReadAllText(location);
+                cachedInput = value;
                 return true;
             } catch
             {
@@ -34,6 +42,7 @@ namespace AdventOfCode.Reader
             var location = GetLocation(md5key);
             new FileInfo(location).Directory?.Create();
             File.WriteAllText(location, value);
+            cachedInput = value;
         }
 
         static string ComputeMD5Hash(CacheKey cacheKey)

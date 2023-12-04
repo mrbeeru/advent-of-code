@@ -13,6 +13,8 @@ Parser.Default.ParseArguments<Options, ShowVerb>(args)
 void Run(Options opt)
 {
     var httpInputReader = new HttpInputReader(opt.Year, opt.Day);
+    //do this to cache
+    httpInputReader.GetInput();
     var (instance, method) = Resolver.Resolve(opt.Year, opt.Day, opt.Part, httpInputReader);
 
     var start = Stopwatch.GetTimestamp();
