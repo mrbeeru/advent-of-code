@@ -33,7 +33,7 @@ namespace AdventOfCode.Quizzes.Y2023
         public long Part2()
         {
             var lines = inputProvider.GetInput().Reverse();
-            var dict = new Dictionary<int, int>();
+            var list = new List<int>();
 
             foreach (var (line, i) in lines.Select((line, i) => (line, i)))
             {
@@ -41,11 +41,11 @@ namespace AdventOfCode.Quizzes.Y2023
                 var winning = nums.Skip(1).Take(10);
                 var cardNums = nums.Skip(11);
                 var intersectionCount = winning.Intersect(cardNums).Count();
-                var sum = dict.Where(x => x.Key <= i - 1 && x.Key > i - 1 - intersectionCount).Sum(x => x.Value);
-                dict.Add(i, sum + 1);
+                var sum = list.Where((x, index) => index <= i - 1 && index > i - 1 - intersectionCount).Sum();
+                list.Add(sum + 1);
             }
 
-            return dict.Values.Sum();
+            return list.Sum();
         }
     }
 }
