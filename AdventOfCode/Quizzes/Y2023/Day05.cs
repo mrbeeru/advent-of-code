@@ -22,11 +22,7 @@ namespace AdventOfCode.Quizzes.Y2023
 
         public long Part1()
         {
-            var input = inputProvider.GetInput();
-            var seeds = input[0].NumsLong();
-            var maps = input.Skip(2)
-                            .Split(string.IsNullOrWhiteSpace)
-                            .Select(x => x.Skip(1).Select(y => { var a = y.NumsLong().ToArray(); return (dest: a[0], src: a[1], range: a[2]); }));
+            var (seeds, maps) = ReadInput(inputProvider.GetInput());
             long lowest = long.MaxValue;
 
             foreach (var seed in seeds)
@@ -42,14 +38,11 @@ namespace AdventOfCode.Quizzes.Y2023
         {
             Console.WriteLine("This might take a few seconds...");
 
-            var input = inputProvider.GetInput();
-            var seeds = input[0].NumsLong().Chunk(2);
-            var maps = input.Skip(2)
-                            .Split(string.IsNullOrWhiteSpace)
-                            .Select(x => x.Skip(1).Select(y => { var a = y.NumsLong().ToArray(); return (dest: a[0], src: a[1], range: a[2]); }));
+            var (seeds, maps) = ReadInput(inputProvider.GetInput());
+            var seedPair = seeds.Chunk(2);
             long lowest = long.MaxValue;
 
-            Parallel.ForEach(seeds, (seed) =>
+            Parallel.ForEach(seedPair, (seed) =>
             {
                 var (localLowestSeed, localLowestValue) = FindInSubrange(seed[0], seed[0] + seed[1], 10_000, maps);
                 var (globalLowestSeed, globalLowestValue) = FindInSubrange(localLowestSeed - 10_000, localLowestSeed, 1, maps);
@@ -89,6 +82,16 @@ namespace AdventOfCode.Quizzes.Y2023
             }
 
             return (seed, lowestValue);
+        }
+
+        static (IEnumerable<long> seeds, IEnumerable<IEnumerable<(long dest, long src, long range)>>) ReadInput(IList<string> input)
+        {
+            var seeds = input[0].NumsLong();
+            var maps = input.Skip(2)
+                            .Split(string.IsNullOrWhiteSpace)
+                            .Select(x => x.Skip(1).Select(y => { var a = y.NumsLong().ToArray(); return (dest: a[0], src: a[1], range: a[2]); }));
+
+            return (seeds, maps);
         }
     }
 }
