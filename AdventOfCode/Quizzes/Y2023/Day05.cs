@@ -44,7 +44,9 @@ namespace AdventOfCode.Quizzes.Y2023
 
             var input = inputProvider.GetInput();
             var seeds = input[0].NumsLong().Chunk(2);
-            var maps = input.Skip(2).Split(string.IsNullOrWhiteSpace).Select(x => x.Skip(1).Select(y => { var a = y.NumsLong().ToArray(); return (dest: a[0], src: a[1], range: a[2]); }));
+            var maps = input.Skip(2)
+                            .Split(string.IsNullOrWhiteSpace)
+                            .Select(x => x.Skip(1).Select(y => { var a = y.NumsLong().ToArray(); return (dest: a[0], src: a[1], range: a[2]); }));
             long lowest = long.MaxValue;
 
             Parallel.ForEach(seeds, (seed) =>
