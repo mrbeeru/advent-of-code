@@ -62,33 +62,33 @@ namespace AdventOfCode.Quizzes.Y2023
 
         static (long seed, long lowest) FindInSubrange(long start, long end, long increment, IEnumerable<IEnumerable<(long dest, long src, long range)>> maps)
         {
-            var lowest = long.MaxValue;
+            var lowestValue = long.MaxValue;
             var seed = 0L;
 
             for (var i = start; i < end; i += increment)
             {
-                long mapped = i;
+                long mappedValue = i;
 
                 foreach (var map in maps)
                 {
                     foreach (var range in map)
                     {
-                        if (mapped >= range.src && mapped < range.src + range.range)
+                        if (mappedValue >= range.src && mappedValue < range.src + range.range)
                         {
-                            mapped += range.dest - range.src;
+                            mappedValue += range.dest - range.src;
                             break;
                         }
                     }
                 }
 
-                if (mapped < lowest)
+                if (mappedValue < lowestValue)
                 {
-                    lowest = mapped;
+                    lowestValue = mappedValue;
                     seed = i;
                 }
             }
 
-            return (seed, lowest);
+            return (seed, lowestValue);
         }
     }
 }
