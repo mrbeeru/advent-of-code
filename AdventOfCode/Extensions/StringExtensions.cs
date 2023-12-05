@@ -18,5 +18,15 @@ namespace AdventOfCode.Extensions
         {
             return Regex.Matches(str, @"-?\d+").Select(x => int.Parse(x.Value));
         }
+
+        /// <summary>
+        /// Extracts all the <see cref="long"/> values from a string.
+        /// </summary>
+        /// <param name="str">The input.</param>
+        /// <returns>An IEnumerable containing all the <see cref="long"/> values found in input string.</returns>
+        public static IEnumerable<long> NumsLong(this string str)
+        {
+            return Regex.Matches(str, @"-?\d+").Select(x => long.Parse(x.Value));
+        }
     }
 }
