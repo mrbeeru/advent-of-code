@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode.Quizzes.Y2023
 {
-    public class Day05 : IPartOne<long>
+    public class Day05 : IPartOne<long>, IPartTwo<long>
     {
         private readonly IInputProvider inputProvider;
 
