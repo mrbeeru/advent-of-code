@@ -18,41 +18,29 @@ namespace AdventOfCode.Quizzes.Y2023
             this.inputProvider = inputProvider;
         }
 
-        public long Part1() => CalculateTotalScore(CalculateHandStrengthPart1);
+        public long Part1() => CalculateTotalScore(1);
 
-        public long Part2() => CalculateTotalScore(CalculateHandStrengthPart2);
+        public long Part2() => CalculateTotalScore(2);
 
-        private long CalculateTotalScore(Func<string, long> calculateHandStrength)
+        private long CalculateTotalScore(int part)
         {
             var ordered = inputProvider.GetInput()
                 .Select(x => (x[..5], int.Parse(x[6..])))
-                .OrderBy(x => calculateHandStrength(x.Item1));
+                .OrderBy(x => CalculateHandStrength(x.Item1, part));
 
             return ordered.Select((x, i) => x.Item2 * (i + 1)).Sum();
         }
 
-        static long CalculateHandStrengthPart1(string hand)
+        static long CalculateHandStrength(string hand, int part)
         {
-            var map = GetCardMapping(11);
-            var cards = hand.GroupBy(x => x).Select(x => x.Count());
-            var handLevel = CalcHandLevel(cards);
-            return handLevel * 11390625L + hand.Select((x, i) => map[x] * (long)Math.Pow(15, 5-i)).Sum();
-        }
-
-        static long CalculateHandStrengthPart2(string hand)
-        {
-            var map = GetCardMapping(1);
+            var map = GetCardMapping(part);
             var cardGroups = hand.GroupBy(x => x).ToDictionary(x => x.Key, x => x.Count());
-            var nonJcards = cardGroups.Where(x => x.Key != 'J').ToDictionary(x => x.Key, x => x.Value);
-            var jcount = cardGroups.GetValueOrDefault('J', 0);
+            var nonJcards = cardGroups.Where(x => x.Key != 'J').Select(x => x.Value).ToList();
+            
+            if (nonJcards.Any()) 
+                nonJcards[nonJcards.IndexOf(nonJcards.Max())] += cardGroups.GetValueOrDefault('J', 0);
 
-            if ( nonJcards.Count > 0)
-            {
-                var key = nonJcards.MaxBy(x => x.Value).Key;
-                nonJcards[key] += jcount;
-            }
-
-            var handLevel = CalcHandLevel(nonJcards.Values);
+            var handLevel = CalcHandLevel(part == 2 ? nonJcards : cardGroups.Values);
             return handLevel * 11390625L + hand.Select((x, i) => map[x] * (long)Math.Pow(15, 5-i)).Sum();
         }
 
@@ -60,7 +48,7 @@ namespace AdventOfCode.Quizzes.Y2023
         {
             return frequencies switch
             {
-                var x when !frequencies.Any() => 7, //case when only JJJJJ in part 2
+                var x when !x.Any() => 7, //case when only JJJJJ in part 2
                 var x when x.Contains(5) => 7,
                 var x when x.Contains(4) => 6,
                 var x when x.Contains(3) && x.Contains(2) => 5,
@@ -71,12 +59,9 @@ namespace AdventOfCode.Quizzes.Y2023
             };
         }
 
-        static Dictionary<char, int> GetCardMapping(int jval)
+        static Dictionary<char, int> GetCardMapping(int part)
         {
-            return new Dictionary<char, int>() {
-                { 'A', 14 }, { 'K', 13 }, { 'Q', 12 }, { 'J', jval }, { 'T', 10 }, { '9', 9 },
-                { '8',  8 }, { '7',  7 }, { '6',  6 }, { '5', 5 }, { '4',  4 }, { '3', 3 }, { '2', 2 }
-            };
+            return "AKQJT98765432".Select((x, i) => (x, x == 'J' && part == 2 ? 1 : 14 - i)).ToDictionary(x => x.x, x => x.Item2);
         }
     }
 }
