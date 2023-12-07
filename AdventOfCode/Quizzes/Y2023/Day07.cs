@@ -18,16 +18,9 @@ namespace AdventOfCode.Quizzes.Y2023
             this.inputProvider = inputProvider;
         }
 
-        public long Part1()
-        {
-            return CalculateTotalScore(CalculateHandStrengthPart1);
-        }
+        public long Part1() => CalculateTotalScore(CalculateHandStrengthPart1);
 
-        public long Part2()
-        {
-            return CalculateTotalScore(CalculateHandStrength2);
-
-        }
+        public long Part2() => CalculateTotalScore(CalculateHandStrengthPart2);
 
         private long CalculateTotalScore(Func<string, long> calculateHandStrength)
         {
@@ -42,23 +35,11 @@ namespace AdventOfCode.Quizzes.Y2023
         {
             var map = GetCardMapping(11);
             var cards = hand.GroupBy(x => x).Select(x => x.Count());
-            var handValue = cards switch
-            {
-                var x when x.Contains(5) => 7,
-                var x when x.Contains(4) => 6,
-                var x when x.Contains(3) && x.Contains(2) => 5,
-                var x when x.Contains(3) => 4,
-                var x when x.Count(y => y == 2) == 2 => 3,
-                var x when x.Max() == 2 => 2,
-                _ => 1,
-            };
-
-            var power = handValue * 11390625L + hand.Select((x, i) => map[x] * (long)Math.Pow(15, 5-i)).Sum();
-
-            return power;
+            var handLevel = CalcHandLevel(cards);
+            return handLevel * 11390625L + hand.Select((x, i) => map[x] * (long)Math.Pow(15, 5-i)).Sum();
         }
 
-        static long CalculateHandStrength2(string hand)
+        static long CalculateHandStrengthPart2(string hand)
         {
             var map = GetCardMapping(1);
             var cardGroups = hand.GroupBy(x => x).ToDictionary(x => x.Key, x => x.Count());
@@ -71,9 +52,15 @@ namespace AdventOfCode.Quizzes.Y2023
                 nonJcards[key] += jcount;
             }
 
-            var handValue = nonJcards.Values switch
+            var handLevel = CalcHandLevel(nonJcards.Values);
+            return handLevel * 11390625L + hand.Select((x, i) => map[x] * (long)Math.Pow(15, 5-i)).Sum();
+        }
+
+        static long CalcHandLevel(IEnumerable<int> frequencies)
+        {
+            return frequencies switch
             {
-                var x when !nonJcards.Any() => 7,
+                var x when !frequencies.Any() => 7, //case when only JJJJJ in part 2
                 var x when x.Contains(5) => 7,
                 var x when x.Contains(4) => 6,
                 var x when x.Contains(3) && x.Contains(2) => 5,
@@ -82,10 +69,6 @@ namespace AdventOfCode.Quizzes.Y2023
                 var x when x.Max() == 2 => 2,
                 _ => 1,
             };
-
-            var power = handValue * 11390625L + hand.Select((x, i) => map[x] * (long)Math.Pow(15, 5-i)).Sum();
-
-            return power;
         }
 
         static Dictionary<char, int> GetCardMapping(int jval)
