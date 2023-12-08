@@ -2,7 +2,7 @@
   "profiles": {
     "AdventOfCode": {
       "commandName": "Project",
-      "commandLineArgs": "run -y 2023 -d 5 -p 2"
+      "commandLineArgs": "run -y 2023 -d 8 -p 2"
     }
   }
 }
