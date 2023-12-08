@@ -24,14 +24,12 @@ namespace AdventOfCode.Quizzes.Y2023
         {
             var (map, directions) = ParseInput();
             var current = "AAA";
-            var target = "ZZZ";
 
             for (int i = 0; ; i++)
             {
-                var direction = directions[i % directions.Length];
-                current = direction == 'L' ? map[current].Left : map[current].Right;
+                current = Next(i, current, directions, map);
 
-                if (current == target)
+                if (current == "ZZZ")
                     return i + 1;
             }
         }
@@ -40,32 +38,33 @@ namespace AdventOfCode.Quizzes.Y2023
         {
             var (map, directions) = ParseInput();
             var current = map.Where(x => x.Key.EndsWith('A')).Select(x => x.Key).ToArray();
-
             var cycles = new List<int>();
 
             for (int j = 0; j < current.Length; j++)
             {
-                bool seenZ = false;
-                for (int i = 0, k = 0; ; i++)
+                for (int i = 0, zpos = 0; ; i++)
                 {
-                    var direction = directions[i % directions.Length];
-                    current[j] = direction == 'L' ? map[current[j]].Left : map[current[j]].Right;
-
-                    if (current[j].EndsWith('Z') && seenZ == true)
-                    {
-                        cycles.Add(i - k);
-                        break;
-                    }
+                    current[j] = Next(i, current[j], directions, map);
 
                     if (current[j].EndsWith('Z') )
                     {
-                        seenZ = true;
-                        k = i;
+                        if (zpos > 0)
+                        {
+                            cycles.Add(i - zpos);
+                            break;
+                        }
+
+                        zpos = i;
                     }
                 }
             }
 
             return cycles.Aggregate(1L, (result, next) => MathUtils.LCM(result, next));
+        }
+
+        static string Next(int i, string current, char[] directions, Dictionary<string, (string Left, string Right)> map)
+        {
+            return directions[i % directions.Length] == 'L' ? map[current].Left : map[current].Right;
         }
 
         (Dictionary<string, (string Left, string Right)>, char[]) ParseInput()
