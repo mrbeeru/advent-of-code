@@ -46,16 +46,13 @@ namespace AdventOfCode.Quizzes.Y2023
                 {
                     current[j] = Next(i, current[j], directions, map);
 
-                    if (current[j].EndsWith('Z') )
-                    {
-                        if (zpos > 0)
-                        {
-                            cycles.Add(i - zpos);
-                            break;
-                        }
-
-                        zpos = i;
+                    if (current[j].EndsWith('Z') && zpos > 0) { 
+                        cycles.Add(i - zpos); 
+                        break; 
                     }
+
+                    if (current[j].EndsWith('Z') && zpos == 0)  
+                        zpos = i; 
                 }
             }
 
