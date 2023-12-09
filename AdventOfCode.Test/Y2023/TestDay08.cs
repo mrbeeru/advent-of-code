@@ -1,10 +1,4 @@
 ﻿using AdventOfCode.Quizzes.Y2023;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static QuikGraph.Algorithms.Assignment.HungarianAlgorithm;
 
 namespace AdventOfCode.Test.Y2023
 {
@@ -29,6 +23,9 @@ namespace AdventOfCode.Test.Y2023
             return new string[] {
                 "LR",
                 "",
+                "AAA = (BBB, BBB)",
+                "BBB = (AAA, ZZZ)",
+                "ZZZ = (ZZZ, ZZZ)",
                 "11A = (11B, XXX)",
                 "11B = (XXX, 11Z)",
                 "11Z = (11B, XXX)",

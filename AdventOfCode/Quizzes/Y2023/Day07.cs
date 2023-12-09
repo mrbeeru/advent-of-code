@@ -1,11 +1,4 @@
-﻿using AdventOfCode.Extensions;
-using AdventOfCode.Reader;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AdventOfCode.Reader;
 
 namespace AdventOfCode.Quizzes.Y2023
 {
@@ -36,8 +29,8 @@ namespace AdventOfCode.Quizzes.Y2023
             var map = GetCardMapping(part);
             var cardGroups = hand.GroupBy(x => x).ToDictionary(x => x.Key, x => x.Count());
             var nonJcards = cardGroups.Where(x => x.Key != 'J').Select(x => x.Value).ToList();
-            
-            if (nonJcards.Any()) 
+
+            if (nonJcards.Any())
                 nonJcards[nonJcards.IndexOf(nonJcards.Max())] += cardGroups.GetValueOrDefault('J', 0);
 
             var handLevel = CalcHandLevel(part == 2 ? nonJcards : cardGroups.Values);

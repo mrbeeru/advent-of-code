@@ -1,9 +1,4 @@
 ﻿using AdventOfCode.Quizzes.Y2015;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdventOfCode.Test.Y2015
 {

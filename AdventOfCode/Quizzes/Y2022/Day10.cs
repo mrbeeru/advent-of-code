@@ -1,5 +1,4 @@
-﻿using AdventOfCode.Extensions;
-using AdventOfCode.Reader;
+﻿using AdventOfCode.Reader;
 using MoreLinq;
 
 namespace AdventOfCode.Quizzes.Y2022

@@ -1,9 +1,4 @@
 ﻿using AdventOfCode.Quizzes.Y2022;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdventOfCode.Test.Y2022
 {
@@ -39,7 +34,7 @@ namespace AdventOfCode.Test.Y2022
                 "3,2,5",
                 "2,1,5",
                 "2,3,5",
-            }; 
+            };
         }
     }
 }

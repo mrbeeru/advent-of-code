@@ -16,7 +16,7 @@ namespace AdventOfCode.Quizzes.Y2022
 
         public long Part1() => Solve(K, K, isPart1: true);
 
-        public long Part2() => Solve(0, 4_000_000, isPart1: false );
+        public long Part2() => Solve(0, 4_000_000, isPart1: false);
 
         public long Solve(int start, int stop, bool isPart1 = true)
         {

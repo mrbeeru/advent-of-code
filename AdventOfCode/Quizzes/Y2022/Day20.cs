@@ -1,11 +1,5 @@
 ﻿using AdventOfCode.Reader;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Xml.Linq;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
@@ -104,7 +98,7 @@ namespace AdventOfCode.Quizzes.Y2022
         private long Sum(Node node, int offset)
         {
             long sum = 0;
-            
+
             for (long i = 0; i <= offset + 3000; i++, node = node.Next)
             {
                 if ((offset + 1000) == i || (offset + 2000) == i || (offset + 3000) == i)
@@ -128,7 +122,7 @@ namespace AdventOfCode.Quizzes.Y2022
             var arr = inputProvider.GetInput().Select((x) => long.Parse(x) * factor).ToArray();
             var l = new List<Node>();
 
-            Node first = new Node() { Pos = 0, Value = arr[0]  };
+            Node first = new Node() { Pos = 0, Value = arr[0] };
             Node current = first;
             l.Add(first);
 

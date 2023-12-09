@@ -1,9 +1,7 @@
 ﻿using AdventOfCode.Extensions;
 using AdventOfCode.Reader;
-using System.Text;
-using System.Threading.Tasks;
-using static MoreLinq.Extensions.ZipLongestExtension;
 using static MoreLinq.Extensions.SplitExtension;
+using static MoreLinq.Extensions.ZipLongestExtension;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
@@ -21,7 +19,7 @@ namespace AdventOfCode.Quizzes.Y2022
             var input = inputProvider.GetInput();
             var groups = input.Split(string.Empty);
             var parsed = groups.Select(x => x.Select(y => Parse(y)).ToArray()).ToList();
-            
+
             return parsed.Select((x, i) => (x[0].CompareTo(x[1]), i + 1))
                          .Where(x => x.Item1 == -1)
                          .Sum(x => x.Item2);
@@ -47,13 +45,15 @@ namespace AdventOfCode.Quizzes.Y2022
             {
                 if (rawPacket[i] == '[')
                 {
-                    var tmp = new Packet() { Parent = current};
+                    var tmp = new Packet() { Parent = current };
                     current.Next.Add(tmp);
                     current = tmp;
-                } else if (rawPacket[i] == ']')
+                }
+                else if (rawPacket[i] == ']')
                 {
                     current = current.Parent;
-                } else if (char.IsDigit(rawPacket[i]))
+                }
+                else if (char.IsDigit(rawPacket[i]))
                 {
                     var num = NextNumber(rawPacket, i);
                     current.Next.Add(num);
@@ -78,7 +78,7 @@ namespace AdventOfCode.Quizzes.Y2022
 
             public int CompareTo(Packet? other)
             {
-                return Next.ZipLongest(other.Next, (x, y) => (x,y))
+                return Next.ZipLongest(other.Next, (x, y) => (x, y))
                     .Select(pair => pair switch
                     {
                         (null, _) => -1,

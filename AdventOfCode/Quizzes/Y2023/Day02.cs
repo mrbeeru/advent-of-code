@@ -1,5 +1,4 @@
 ﻿using AdventOfCode.Reader;
-using MoreLinq;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Quizzes.Y2023
@@ -16,7 +15,7 @@ namespace AdventOfCode.Quizzes.Y2023
         public long Part1()
         {
             var input = inputProvider.GetInput();
-           
+
             var result = input.Select(MaxGameBallsByColor)
                 .Select((map, i) => (map, i))
                 .Where(x => x.map["red"] <= 12 && x.map["green"] <= 13 && x.map["blue"] <= 14)

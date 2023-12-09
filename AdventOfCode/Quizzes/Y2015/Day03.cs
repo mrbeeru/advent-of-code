@@ -1,11 +1,5 @@
 ﻿using AdventOfCode.Helpers;
 using AdventOfCode.Reader;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdventOfCode.Quizzes.Y2015
 {
@@ -37,7 +31,7 @@ namespace AdventOfCode.Quizzes.Y2015
 
         private static HashSet<Coords2D> DeliverPresents(IEnumerable<char> directions)
         {
-            var current = new Coords2D(0,0);
+            var current = new Coords2D(0, 0);
             var visited = new HashSet<Coords2D>() { current };
 
             foreach (var next in directions)

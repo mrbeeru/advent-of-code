@@ -3,7 +3,6 @@ using AdventOfCode.Reader;
 using MoreLinq;
 using QuikGraph;
 using QuikGraph.Algorithms;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
@@ -19,7 +18,7 @@ namespace AdventOfCode.Quizzes.Y2022
         public long Part1()
         {
             var input = inputProvider.GetInput();
-            var end   = input.SelectMany(x => x).Select((x, i) => (x, i)).Where(x => x.x == 'E').Single().i;
+            var end = input.SelectMany(x => x).Select((x, i) => (x, i)).Where(x => x.x == 'E').Single().i;
             var start = input.SelectMany(x => x).Select((x, i) => (x, i)).Where(x => x.x == 'S').Single().i;
             var graph = BuildGraph(input);
             return FindNumberOfSteps(graph, start, end);

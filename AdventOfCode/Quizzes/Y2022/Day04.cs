@@ -1,10 +1,4 @@
-﻿using AdventOfCode.Extensions;
-using AdventOfCode.Reader;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AdventOfCode.Reader;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
@@ -56,7 +50,7 @@ namespace AdventOfCode.Quizzes.Y2022
 
         private bool Overlap(Range range1, Range range2)
         {
-            return range1.Start.Value <= range2.End.Value && 
+            return range1.Start.Value <= range2.End.Value &&
                    range2.Start.Value <= range1.End.Value;
         }
     }

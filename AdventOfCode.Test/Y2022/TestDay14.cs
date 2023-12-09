@@ -1,9 +1,4 @@
 ﻿using AdventOfCode.Quizzes.Y2022;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdventOfCode.Test.Y2022
 {
@@ -27,7 +22,7 @@ namespace AdventOfCode.Test.Y2022
         {
             return new[]
             {
-                "498,4 -> 498,6 -> 496,6", 
+                "498,4 -> 498,6 -> 496,6",
                 "503,4 -> 502,4 -> 502,9 -> 494,9"
             };
         }

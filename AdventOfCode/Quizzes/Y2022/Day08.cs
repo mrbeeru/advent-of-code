@@ -1,10 +1,5 @@
 ﻿using AdventOfCode.Helpers;
 using AdventOfCode.Reader;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
@@ -40,10 +35,10 @@ namespace AdventOfCode.Quizzes.Y2022
 
         private bool IsVisibleDirection(int a, int b, int[][] forest, (int x, int y) direction)
         {
-            var i = a + direction.x; 
+            var i = a + direction.x;
             var j = b + direction.y;
 
-            while ((i,j).Within(forest))
+            while ((i, j).Within(forest))
             {
                 if (forest[i][j] >= forest[a][b])
                     return false;
@@ -58,7 +53,7 @@ namespace AdventOfCode.Quizzes.Y2022
         private int ScenicScore(int i, int j, int[][] forest)
         {
             (int, int)[] directions = new[] { (-1, 0), (0, -1), (1, 0), (0, 1) };
-            return directions.Aggregate(1, (a,b) => a *  ScenicScoreDirection(i, j, forest, b));
+            return directions.Aggregate(1, (a, b) => a *  ScenicScoreDirection(i, j, forest, b));
         }
 
         private int ScenicScoreDirection(int a, int b, int[][] forest, (int x, int y) direction)
@@ -73,11 +68,11 @@ namespace AdventOfCode.Quizzes.Y2022
                 i += direction.x;
                 j += direction.y;
 
-                if (!(i,j).Within(forest))
+                if (!(i, j).Within(forest))
                     break;
 
                 score++;
-            } while ((i,j).Within(forest) && forest[i][j] < forest[a][b]);
+            } while ((i, j).Within(forest) && forest[i][j] < forest[a][b]);
 
             return score;
         }

@@ -2,16 +2,9 @@
 using AdventOfCode.Reader;
 using QuikGraph;
 using QuikGraph.Algorithms;
-using static MoreLinq.Extensions.SubsetsExtension;
-using static MoreLinq.Extensions.ForEachExtension;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using static MoreLinq.Extensions.ForEachExtension;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
@@ -51,7 +44,7 @@ namespace AdventOfCode.Quizzes.Y2022
                 }
 
                 //if (result.Count == 2)
-                    //Console.WriteLine("yey");
+                //Console.WriteLine("yey");
             }
         }
 
@@ -83,7 +76,8 @@ namespace AdventOfCode.Quizzes.Y2022
             var input = inputProvider.GetInput();
             var graph = new AdjacencyGraph<string, Edge<string>>();
 
-            input.ForEach(x => {
+            input.ForEach(x =>
+            {
                 map.Add(x[6..8],
                     new Valve
                     {
@@ -97,7 +91,8 @@ namespace AdventOfCode.Quizzes.Y2022
             {
                 var matches = Regex.Matches(line, @"[A-Z]{2}");
                 var valve = map[matches.First().Value];
-                matches.Skip(1).ForEach(x => {
+                matches.Skip(1).ForEach(x =>
+                {
                     valve.Next.Add(map[x.Value]);
                     graph.AddEdge(new Edge<string>(valve.ID, x.Value));
                 });

@@ -1,12 +1,7 @@
 ﻿using AdventOfCode.Helpers;
 using AdventOfCode.Reader;
 using MoreLinq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace AdventOfCode.Quizzes.Y2023
 {
@@ -53,7 +48,7 @@ namespace AdventOfCode.Quizzes.Y2023
             {
                 for (int j = match.Index - 1; j < match.Index + match.Value.Length + 1; j++)
                 {
-                    if (!(i, j).Within(matrix)) 
+                    if (!(i, j).Within(matrix))
                         continue;
 
                     if (char.IsDigit(matrix[i][j]) || matrix[i][j] == '.')

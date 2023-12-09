@@ -1,13 +1,5 @@
-﻿using AdventOfCode.Extensions;
-using AdventOfCode.Helpers;
+﻿using AdventOfCode.Helpers;
 using AdventOfCode.Reader;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdventOfCode.Quizzes.Y2023
 {
@@ -46,13 +38,14 @@ namespace AdventOfCode.Quizzes.Y2023
                 {
                     current[j] = Next(i, current[j], directions, map);
 
-                    if (current[j].EndsWith('Z') && zpos > 0) { 
-                        cycles.Add(i - zpos); 
-                        break; 
+                    if (current[j].EndsWith('Z') && zpos > 0)
+                    {
+                        cycles.Add(i - zpos);
+                        break;
                     }
 
-                    if (current[j].EndsWith('Z') && zpos == 0)  
-                        zpos = i; 
+                    if (current[j].EndsWith('Z') && zpos == 0)
+                        zpos = i;
                 }
             }
 

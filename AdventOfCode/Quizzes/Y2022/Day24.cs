@@ -1,17 +1,12 @@
 ﻿using AdventOfCode.Reader;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
     public class Day24 : IPartOne<long>, IPartTwo<long>
     {
         private readonly IInputProvider inputProvider;
-        private readonly (int row, int col)[] directions = new[] {(-1, 0), (1, 0) , (0, -1) , (0, 1) };
+        private readonly (int row, int col)[] directions = new[] { (-1, 0), (1, 0), (0, -1), (0, 1) };
 
         public Day24(IInputProvider inputProvider) => this.inputProvider = inputProvider;
 
@@ -27,15 +22,15 @@ namespace AdventOfCode.Quizzes.Y2022
             var (blizzards, dims, endPos) = Parse();
             var startPos = (0, 1);
             var activeState = new HashSet<(int, int)> { startPos };
-            var time =  FindSmallestTime(blizzards, activeState, dims, endPos);
+            var time = FindSmallestTime(blizzards, activeState, dims, endPos);
 
             startPos = endPos;
             activeState = new HashSet<(int, int)> { startPos };
-            endPos = (0,1);
+            endPos = (0, 1);
             time += FindSmallestTime(blizzards, activeState, dims, endPos);
 
             endPos = startPos;
-            startPos = (0,1);
+            startPos = (0, 1);
             activeState = new HashSet<(int, int)> { startPos };
             time += FindSmallestTime(blizzards, activeState, dims, endPos);
 

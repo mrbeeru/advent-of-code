@@ -1,13 +1,7 @@
 ﻿using AdventOfCode.Reader;
 using MoreLinq;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
@@ -15,7 +9,7 @@ namespace AdventOfCode.Quizzes.Y2022
     {
         private readonly IInputProvider inputProvider;
         private int maxTime = 24;
-        HashSet<((int, int, int, int),(int, int, int, int), int)> Memoization = new();
+        HashSet<((int, int, int, int), (int, int, int, int), int)> Memoization = new();
         int[] scores;
 
         public Day19(IInputProvider inputProvider) => this.inputProvider = inputProvider;
@@ -39,9 +33,9 @@ namespace AdventOfCode.Quizzes.Y2022
         }
 
         private void EvaluateBlueprint(
-            Blueprint blueprint, 
-            (int ore, int clay, int obs, int geo) totalProduction, 
-            (int ore, int clay, int obs, int geo) currentProduction, 
+            Blueprint blueprint,
+            (int ore, int clay, int obs, int geo) totalProduction,
+            (int ore, int clay, int obs, int geo) currentProduction,
             int minute,
             ref int maxScore)
         {
@@ -128,7 +122,7 @@ namespace AdventOfCode.Quizzes.Y2022
         }
 
         [DebuggerDisplay("{Kind}")]
-        private class Robot : IEquatable<Robot> 
+        private class Robot : IEquatable<Robot>
         {
             public enum RobotKind
             {
@@ -159,10 +153,10 @@ namespace AdventOfCode.Quizzes.Y2022
 
                 robot.Produce = robot.Kind switch
                 {
-                    RobotKind.Ore => (1,0,0,0),
-                    RobotKind.Clay => (0,1,0,0),
-                    RobotKind.Obsidian => (0,0,1,0),
-                    RobotKind.Geode => (0,0,0,1),
+                    RobotKind.Ore => (1, 0, 0, 0),
+                    RobotKind.Clay => (0, 1, 0, 0),
+                    RobotKind.Obsidian => (0, 0, 1, 0),
+                    RobotKind.Geode => (0, 0, 0, 1),
                     _ => throw new Exception("Invalid robot type.")
                 };
 
@@ -206,7 +200,7 @@ namespace AdventOfCode.Quizzes.Y2022
             }
 
             private static Robot none;
-            public static Robot None => none ??= new Robot() { Kind = RobotKind.None};
+            public static Robot None => none ??= new Robot() { Kind = RobotKind.None };
         }
     }
 }

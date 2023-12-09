@@ -1,11 +1,6 @@
 ﻿using AdventOfCode.Extensions;
 using AdventOfCode.Helpers;
 using AdventOfCode.Reader;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdventOfCode.Quizzes.Y2015
 {
@@ -21,7 +16,7 @@ namespace AdventOfCode.Quizzes.Y2015
 
         public int Part1()
         {
-            Func<int,int> toggle = (light) => light == 1 ? 0 : 1;
+            Func<int, int> toggle = (light) => light == 1 ? 0 : 1;
             Func<int, int> turnOn = (light) => 1;
             Func<int, int> turnOff = (light) => 0;
 
@@ -65,7 +60,7 @@ namespace AdventOfCode.Quizzes.Y2015
             {
                 for (int j = a.Y; j <= b.Y; j++)
                 {
-                    grid[i, j] = command(grid[i,j]);
+                    grid[i, j] = command(grid[i, j]);
                 }
             }
         }

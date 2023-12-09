@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AdventOfCode.Reader
+﻿namespace AdventOfCode.Reader
 {
     internal class HttpInputReader : IInputProvider
     {
@@ -25,7 +19,8 @@ namespace AdventOfCode.Reader
             {
                 var token = File.ReadAllText(secretsFilePath);
                 cacheKey = new CacheKey(year, day, token);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new AggregateException("Could not read token.", ex);
             }

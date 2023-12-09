@@ -1,10 +1,4 @@
 ﻿using AdventOfCode.Reader;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static MoreLinq.Extensions.PairwiseExtension;
 using static MoreLinq.Extensions.WindowExtension;
 
 namespace AdventOfCode.Quizzes.Y2015

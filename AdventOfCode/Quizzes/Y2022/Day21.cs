@@ -1,11 +1,6 @@
 ﻿using AdventOfCode.Extensions;
 using AdventOfCode.Reader;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
@@ -32,7 +27,7 @@ namespace AdventOfCode.Quizzes.Y2022
             if (root.Right.TotalValue == me.TotalValue)
             {
                 me = root.Left;
-                other = root.Right;    
+                other = root.Right;
             }
 
             long UB = long.MaxValue;

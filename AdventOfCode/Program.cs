@@ -1,8 +1,6 @@
 ﻿using AdventOfCode;
 using AdventOfCode.Reader;
-using AdventOfCode.Quizzes.Y2022;
 using CommandLine;
-using System.Reflection;
 using System.Diagnostics;
 
 

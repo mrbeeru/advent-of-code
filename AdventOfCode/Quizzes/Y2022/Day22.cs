@@ -1,15 +1,5 @@
-﻿using AdventOfCode.Helpers;
-using AdventOfCode.Reader;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using AdventOfCode.Reader;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using static QuikGraph.Algorithms.Assignment.HungarianAlgorithm;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
@@ -42,27 +32,32 @@ namespace AdventOfCode.Quizzes.Y2022
                 Offset = (0, 50)
             };
 
-            var f2 = new Face() { 
+            var f2 = new Face()
+            {
                 Data = arr[0..50].Select(x => x[100..150]).ToArray(),
                 Offset = (0, 100)
             };
 
-            var f3 = new Face() { 
+            var f3 = new Face()
+            {
                 Data = arr[50..100].Select(x => x[50..100]).ToArray(),
                 Offset = (50, 50)
             };
 
-            var f4 = new Face() {
+            var f4 = new Face()
+            {
                 Data = arr[100..150].Select(x => x[0..50]).ToArray(),
                 Offset = (100, 0)
             };
 
-            var f5 = new Face() {
+            var f5 = new Face()
+            {
                 Data = arr[100..150].Select(x => x[50..100]).ToArray(),
                 Offset = (100, 50)
             };
 
-            var f6 = new Face() {
+            var f6 = new Face()
+            {
                 Data = arr[150..200].Select(x => x[0..50]).ToArray(),
                 Offset = (150, 0)
             };

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace AdventOfCode.Reader
 {
@@ -29,14 +25,15 @@ namespace AdventOfCode.Reader
                 value = File.ReadAllText(location);
                 cachedInput = value;
                 return true;
-            } catch
+            }
+            catch
             {
                 value = null;
                 return false;
             }
         }
 
-        public void Set(CacheKey key, string value) 
+        public void Set(CacheKey key, string value)
         {
             var md5key = ComputeMD5Hash(key);
             var location = GetLocation(md5key);

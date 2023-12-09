@@ -1,10 +1,5 @@
 ﻿using AdventOfCode.Extensions;
 using AdventOfCode.Reader;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
@@ -14,7 +9,7 @@ namespace AdventOfCode.Quizzes.Y2022
         readonly (int x, int y, int z)[] dirs = new[] { (-1, 0, 0), (1, 0, 0), (0, -1, 0), (0, 1, 0), (0, 0, -1), (0, 0, 1) };
         readonly HashSet<(int, int, int)> visited = new();
         HashSet<(int, int, int)> input = new();
-        (int x, int y, int z) min; 
+        (int x, int y, int z) min;
         (int x, int y, int z) max;
 
         public Day18(IInputProvider inputProvider) => this.inputProvider = inputProvider;
@@ -60,11 +55,11 @@ namespace AdventOfCode.Quizzes.Y2022
             return Part1() - innerCubeFaces.Count();
         }
 
-        private void DFS((int x,int y,int z) current )
+        private void DFS((int x, int y, int z) current)
         {
             IEnumerable<(int x, int y, int z)> nextCoords = dirs.Select(x => (current.x + x.x, current.y + x.y, current.z + x.z));
 
-            foreach(var next in nextCoords)
+            foreach (var next in nextCoords)
             {
                 if (visited.Contains(next))
                     continue;

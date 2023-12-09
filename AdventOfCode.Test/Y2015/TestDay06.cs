@@ -1,9 +1,4 @@
 ﻿using AdventOfCode.Quizzes.Y2015;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdventOfCode.Test.Y2015
 {
@@ -25,8 +20,8 @@ namespace AdventOfCode.Test.Y2015
         {
             return new string[]
             {
-                "toggle 0,0 through 2,2", 
-                "turn off 1,1 through 2,2", 
+                "toggle 0,0 through 2,2",
+                "turn off 1,1 through 2,2",
                 "turn on 0,0 through 0,9"
             };
         }
