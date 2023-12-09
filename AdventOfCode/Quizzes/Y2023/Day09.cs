@@ -12,33 +12,30 @@ namespace AdventOfCode.Quizzes.Y2023
             this.inputProvider = inputProvider;
         }
 
-        public long Part1() => Solve(part: 1);
+        public long Part1() => Solve((nums) => nums);
 
-        public long Part2() => Solve(part: 2);
+        public long Part2() => Solve((nums) => nums.Reverse());
 
-        long Solve(int part)
+        long Solve(Func<IEnumerable<int>, IEnumerable<int>> fn)
         {
-            var nums = inputProvider.GetInput().Select(x => x.Nums().ToArray());
+            var nums = inputProvider.GetInput().Select(x => fn(x.Nums()).ToArray());
             var totalSum = 0L;
 
             foreach (var row in nums)
             {
                 var matrix = BuildMatrix(row);
-                totalSum += CalcHistory(matrix, part);
+                totalSum += CalcHistory(matrix);
             }
 
             return totalSum;
         }
 
-        static long CalcHistory(long[,] matrix, int part)
+        static long CalcHistory(long[,] matrix)
         {
             long sum = 0L, len = matrix.GetLength(0) - 1;
 
             for (long i = len; i >= 0; i--)
-            {
-                sum  = part == 2 ? -sum : sum;
-                sum += part == 2 ? matrix[i, i] : matrix[i, len];
-            }
+                sum += matrix[i, len];
 
             return sum;
         }
