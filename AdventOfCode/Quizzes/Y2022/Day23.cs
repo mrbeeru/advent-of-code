@@ -2,12 +2,10 @@
 
 namespace AdventOfCode.Quizzes.Y2022
 {
-    public class Day23 : IPartOne<long>, IPartTwo<long>
+    [Aoc(year: 2022, day: 23)]
+    public class Day23(IInputProvider inputProvider) : IPartOne<long>, IPartTwo<long>
     {
-        private readonly IInputProvider inputProvider;
         private readonly (int row, int col)[] direcitons = new[] { (-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1) };
-
-        public Day23(IInputProvider inputProvider) => this.inputProvider = inputProvider;
 
         public long Part1() => Simulate(10, BuildHashSet());
 

@@ -3,15 +3,9 @@ using AdventOfCode.Reader;
 
 namespace AdventOfCode.Quizzes.Y2023
 {
-    public class Day08 : IPartOne<long>, IPartTwo<long>
+    [Aoc(year: 2023, day: 8)]
+    public class Day08(IInputProvider inputProvider) : IPartOne<long>, IPartTwo<long>
     {
-        private readonly IInputProvider inputProvider;
-
-        public Day08(IInputProvider inputProvider)
-        {
-            this.inputProvider = inputProvider;
-        }
-
         public long Part1()
         {
             var (map, directions) = ParseInput();

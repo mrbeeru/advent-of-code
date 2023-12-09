@@ -4,12 +4,9 @@ using System.Diagnostics;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
-    public class Day21 : IPartOne<long>, IPartTwo<long>
+    [Aoc(year: 2022, day: 21)]
+    public class Day21(IInputProvider inputProvider) : IPartOne<long>, IPartTwo<long>
     {
-        private readonly IInputProvider inputProvider;
-
-        public Day21(IInputProvider inputProvider) => this.inputProvider = inputProvider;
-
         public long Part1()
         {
             (Monkey root, _) = Parse();

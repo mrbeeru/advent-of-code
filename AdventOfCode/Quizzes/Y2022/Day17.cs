@@ -2,15 +2,9 @@
 
 namespace AdventOfCode.Quizzes.Y2022
 {
-    public class Day17 : IPartOne<long>, IPartTwo<long>
+    [Aoc(year: 2022, day: 17)]
+    public class Day17(IInputProvider inputProvider) : IPartOne<long>, IPartTwo<long>
     {
-        private readonly IInputProvider inputProvider;
-
-        public Day17(IInputProvider inputProvider)
-        {
-            this.inputProvider=inputProvider;
-        }
-
         public long Part1()
         {
             var sequence = inputProvider.GetInput().First();

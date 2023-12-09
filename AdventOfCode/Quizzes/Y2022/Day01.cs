@@ -6,15 +6,9 @@ namespace AdventOfCode.Quizzes.Y2022
     /// <summary>
     /// https://adventofcode.com/2022/day/1
     /// </summary>
-    public class Day01 : IPartOne<long>, IPartTwo<long>
+    [Aoc(year: 2022, day: 1)]
+    public class Day01(IInputProvider inputProvider) : IPartOne<long>, IPartTwo<long>
     {
-        private readonly IInputProvider inputProvider;
-
-        public Day01(IInputProvider inputProvider)
-        {
-            this.inputProvider = inputProvider;
-        }
-
         public long Part1()
         {
             return GetCaloriesPerElf().Max();
@@ -33,6 +27,5 @@ namespace AdventOfCode.Quizzes.Y2022
             return inputProvider.GetInput()
                 .Split(x => string.IsNullOrWhiteSpace(x)).Select(x => x.Select(y => int.Parse(y)).Sum());
         }
-
     }
 }

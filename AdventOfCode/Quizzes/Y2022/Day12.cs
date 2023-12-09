@@ -6,15 +6,9 @@ using QuikGraph.Algorithms;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
-    public class Day12 : IPartOne<long>, IPartTwo<long>
+    [Aoc(year: 2022, day: 12)]
+    public class Day12(IInputProvider inputProvider) : IPartOne<long>, IPartTwo<long>
     {
-        private readonly IInputProvider inputProvider;
-
-        public Day12(IInputProvider inputProvider)
-        {
-            this.inputProvider = inputProvider;
-        }
-
         public long Part1()
         {
             var input = inputProvider.GetInput();

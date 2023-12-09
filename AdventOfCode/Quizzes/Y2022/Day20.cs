@@ -3,12 +3,9 @@ using System.Diagnostics;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
-    public class Day20 : IPartOne<long>, IPartTwo<long>
+    [Aoc(year: 2022, day: 20)]
+    public class Day20(IInputProvider inputProvider) : IPartOne<long>, IPartTwo<long>
     {
-        private readonly IInputProvider inputProvider;
-
-        public Day20(IInputProvider inputProvider) => this.inputProvider = inputProvider;
-
         public long Part1() => MixUsingCircularBuffer(1, 1);
 
         public long Part2() => MixUsingLinkedList(10, 811589153L);

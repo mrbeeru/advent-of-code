@@ -5,14 +5,12 @@ using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
-    public class Day19 : IPartOne<long>
+    [Aoc(year: 2022, day: 19)]
+    public class Day19(IInputProvider inputProvider) : IPartOne<long>
     {
-        private readonly IInputProvider inputProvider;
         private int maxTime = 24;
         HashSet<((int, int, int, int), (int, int, int, int), int)> Memoization = new();
         int[] scores;
-
-        public Day19(IInputProvider inputProvider) => this.inputProvider = inputProvider;
 
         public long Part1()
         {

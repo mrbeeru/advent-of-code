@@ -3,12 +3,9 @@ using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
-    public class Day22 : IPartOne<long>, IPartTwo<long>
+    [Aoc(year: 2022, day: 22)]
+    public class Day22(IInputProvider inputProvider) : IPartOne<long>, IPartTwo<long>
     {
-        private readonly IInputProvider inputProvider;
-
-        public Day22(IInputProvider inputProvider) => this.inputProvider = inputProvider;
-
         public long Part1()
         {
             var lines = inputProvider.GetInput();

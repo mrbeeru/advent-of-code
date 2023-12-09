@@ -4,15 +4,10 @@ using AdventOfCode.Reader;
 
 namespace AdventOfCode.Quizzes.Y2015
 {
-    public class Day06 : IPartOne<int>, IPartTwo<int>
+    [Aoc(year: 2015, day: 6)]
+    public class Day06(IInputProvider inputProvider) : IPartOne<int>, IPartTwo<int>
     {
-        private readonly IInputProvider inputProvider;
         private int[,] grid = new int[1000, 1000];
-
-        public Day06(IInputProvider inputProvider)
-        {
-            this.inputProvider = inputProvider;
-        }
 
         public int Part1()
         {

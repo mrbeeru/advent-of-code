@@ -3,12 +3,10 @@ using System.Diagnostics;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
-    public class Day24 : IPartOne<long>, IPartTwo<long>
+    [Aoc(year: 2022, day: 24)]
+    public class Day24(IInputProvider inputProvider) : IPartOne<long>, IPartTwo<long>
     {
-        private readonly IInputProvider inputProvider;
         private readonly (int row, int col)[] directions = new[] { (-1, 0), (1, 0), (0, -1), (0, 1) };
-
-        public Day24(IInputProvider inputProvider) => this.inputProvider = inputProvider;
 
         public long Part1()
         {

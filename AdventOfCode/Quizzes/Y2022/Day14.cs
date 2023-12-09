@@ -5,15 +5,9 @@ using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
-    public class Day14 : IPartOne<long>, IPartTwo<long>
+    [Aoc(year: 2022, day: 14)]
+    public class Day14(IInputProvider inputProvider) : IPartOne<long>, IPartTwo<long>
     {
-        private readonly IInputProvider inputProvider;
-
-        public Day14(IInputProvider inputProvider)
-        {
-            this.inputProvider = inputProvider;
-        }
-
         public long Part1()
         {
             var matrix = InitializeMatrix();

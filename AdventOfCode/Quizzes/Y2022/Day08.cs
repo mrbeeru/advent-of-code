@@ -6,15 +6,9 @@ namespace AdventOfCode.Quizzes.Y2022
     /// <summary>
     /// https://adventofcode.com/2022/day/8
     /// </summary>
-    public class Day08 : IPartOne<long>, IPartTwo<long>
+    [Aoc(year: 2022, day: 8)]
+    public class Day08(IInputProvider inputProvider) : IPartOne<long>, IPartTwo<long>
     {
-        private readonly IInputProvider inputProvider;
-
-        public Day08(IInputProvider inputProvider)
-        {
-            this.inputProvider = inputProvider;
-        }
-
         public long Part1()
         {
             var forest = inputProvider.GetInput().Select(x => x.Select(y => y - '0').ToArray()).ToArray();

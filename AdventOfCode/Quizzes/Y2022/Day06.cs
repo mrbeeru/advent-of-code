@@ -6,24 +6,16 @@ namespace AdventOfCode.Quizzes.Y2022
     /// <summary>
     /// https://adventofcode.com/2022/day/6
     /// </summary>
-    public class Day06 : IPartOne<long>, IPartTwo<long>
+    [Aoc(year: 2022, day: 6)]
+    public class Day06(IInputProvider inputProvider) : IPartOne<long>, IPartTwo<long>
     {
-        private readonly IInputProvider inputProvider;
-
-        public Day06(IInputProvider inputProvider)
-        {
-            this.inputProvider = inputProvider;
-        }
-
         public long Part1()
         {
-            //1 line input
             return FindMarkerIndex(inputProvider.GetInput().First(), 4);
         }
 
         public long Part2()
         {
-            //1 line input
             return FindMarkerIndex(inputProvider.GetInput().First(), 14);
         }
 

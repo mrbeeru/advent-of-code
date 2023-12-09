@@ -15,19 +15,23 @@ namespace AdventOfCode
             if (part != 1 && part != 2)
                 throw new Exception("Part can be 1 or 2");
 
-            var cls = Assembly.GetExecutingAssembly()
+            var targetClass = Assembly.GetExecutingAssembly()
                 .GetTypes()
-                .Single(x => x.FullName == $"AdventOfCode.Quizzes.Y{year}.Day{day:00}");
+                .FirstOrDefault(type =>
+                {
+                    var attribute = type.GetCustomAttribute<AocAttribute>();
+                    return attribute?.Year == year && attribute?.Day == day;
+                });
 
-            if (cls == null)
+            if (targetClass == null)
                 throw new Exception($"AOC {year}-{day:00} is not implemented.");
 
-            var method = cls.GetMethod($"Part{part}");
+            var method = targetClass.GetMethod($"Part{part}");
 
             if (method == null)
                 throw new Exception($"AOC {year}-{day:00} Part {part} is not implemented.");
 
-            var instance = Activator.CreateInstance(cls, new object[] { provider });
+            var instance = Activator.CreateInstance(targetClass, new object[] { provider });
 
             return (instance, method);
         }

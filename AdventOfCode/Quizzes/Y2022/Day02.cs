@@ -5,10 +5,9 @@ namespace AdventOfCode.Quizzes.Y2022
     /// <summary>
     /// https://adventofcode.com/2022/day/2
     /// </summary>
-    public class Day02 : IPartOne<long>, IPartTwo<long>
+    [Aoc(year: 2022, day: 2)]
+    public class Day02(IInputProvider inputProvider) : IPartOne<long>, IPartTwo<long>
     {
-        private readonly IInputProvider inputProvider;
-
         private const int WIN = 6;
         private const int DRAW = 3;
         private const int LOSE = 0;
@@ -16,12 +15,6 @@ namespace AdventOfCode.Quizzes.Y2022
         private const int PICK_ROCK = 1;
         private const int PICK_PAPER = 2;
         private const int PICK_SCISSORS = 3;
-
-
-        public Day02(IInputProvider inputProvider)
-        {
-            this.inputProvider = inputProvider;
-        }
 
         public long Part1()
         {

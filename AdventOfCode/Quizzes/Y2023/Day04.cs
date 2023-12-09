@@ -4,15 +4,9 @@ using MoreLinq;
 
 namespace AdventOfCode.Quizzes.Y2023
 {
-    public class Day04 : IPartOne<long>, IPartTwo<long>
+    [Aoc(year: 2023, day: 4)]
+    public class Day04(IInputProvider inputProvider) : IPartOne<long>, IPartTwo<long>
     {
-        private readonly IInputProvider inputProvider;
-
-        public Day04(IInputProvider inputProvider)
-        {
-            this.inputProvider = inputProvider;
-        }
-
         public long Part1()
         {
             return inputProvider.GetInput()

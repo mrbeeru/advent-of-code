@@ -4,15 +4,10 @@ using MoreLinq;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
-    public class Day15 : IPartOne<long>, IPartTwo<long>
+    [Aoc(year: 2022, day: 15)]
+    public class Day15(IInputProvider inputProvider) : IPartOne<long>, IPartTwo<long>
     {
-        private readonly IInputProvider inputProvider;
         public int K { get; set; } = 2_000_000; // used to pass value 10 in unit testing
-
-        public Day15(IInputProvider inputProvider)
-        {
-            this.inputProvider = inputProvider;
-        }
 
         public long Part1() => Solve(K, K, isPart1: true);
 

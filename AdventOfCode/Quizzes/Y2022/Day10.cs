@@ -6,16 +6,11 @@ namespace AdventOfCode.Quizzes.Y2022
     /// <summary>
     /// https://adventofcode.com/2022/day/10
     /// </summary>
-    public class Day10 : IPartOne<long>, IPartTwo<string>
+    [Aoc(year: 2022, day: 10)]
+    public class Day10(IInputProvider inputProvider) : IPartOne<long>, IPartTwo<string>
     {
-        private readonly IInputProvider inputProvider;
         private readonly char[] crt = Enumerable.Range(0, 240).Select(x => ' ').ToArray();
         private delegate int Handle(int cc, int regx);
-
-        public Day10(IInputProvider inputProvider)
-        {
-            this.inputProvider = inputProvider;
-        }
 
         public long Part1()
         {

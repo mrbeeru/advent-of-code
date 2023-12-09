@@ -5,15 +5,9 @@ using static MoreLinq.Extensions.ZipLongestExtension;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
-    public class Day13 : IPartOne<long>, IPartTwo<long>
+    [Aoc(year: 2022, day: 13)]
+    public class Day13(IInputProvider inputProvider) : IPartOne<long>, IPartTwo<long>
     {
-        private readonly IInputProvider inputProvider;
-
-        public Day13(IInputProvider inputProvider)
-        {
-            this.inputProvider = inputProvider;
-        }
-
         public long Part1()
         {
             var input = inputProvider.GetInput();

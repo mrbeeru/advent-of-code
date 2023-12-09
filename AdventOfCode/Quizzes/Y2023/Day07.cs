@@ -2,15 +2,9 @@
 
 namespace AdventOfCode.Quizzes.Y2023
 {
-    public class Day07 : IPartOne<long>, IPartTwo<long>
+    [Aoc(year: 2023, day: 7)]
+    public class Day07(IInputProvider inputProvider) : IPartOne<long>, IPartTwo<long>
     {
-        private readonly IInputProvider inputProvider;
-
-        public Day07(IInputProvider inputProvider)
-        {
-            this.inputProvider = inputProvider;
-        }
-
         public long Part1() => CalculateTotalScore(1);
 
         public long Part2() => CalculateTotalScore(2);

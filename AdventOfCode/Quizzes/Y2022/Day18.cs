@@ -3,16 +3,15 @@ using AdventOfCode.Reader;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
-    public class Day18 : IPartOne<long>, IPartTwo<long>
+    [Aoc(year: 2022, day: 18)]
+    public class Day18(IInputProvider inputProvider) : IPartOne<long>, IPartTwo<long>
     {
-        readonly IInputProvider inputProvider;
         readonly (int x, int y, int z)[] dirs = new[] { (-1, 0, 0), (1, 0, 0), (0, -1, 0), (0, 1, 0), (0, 0, -1), (0, 0, 1) };
         readonly HashSet<(int, int, int)> visited = new();
         HashSet<(int, int, int)> input = new();
         (int x, int y, int z) min;
         (int x, int y, int z) max;
 
-        public Day18(IInputProvider inputProvider) => this.inputProvider = inputProvider;
 
         public long Part1()
         {

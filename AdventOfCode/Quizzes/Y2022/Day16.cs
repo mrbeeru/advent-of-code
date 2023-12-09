@@ -8,16 +8,14 @@ using static MoreLinq.Extensions.ForEachExtension;
 
 namespace AdventOfCode.Quizzes.Y2022
 {
-    public class Day16 : IPartOne<long>
+    [Aoc(year: 2022, day: 16)]
+    public class Day16(IInputProvider inputProvider) : IPartOne<long>
     {
-        readonly IInputProvider inputProvider;
         Dictionary<string, Valve> map = new();
         Dictionary<(string, string), int> lengths = new();
         AdjacencyGraph<string, Edge<string>> graph;
         List<Valve> valveList = new();
         int maxScore = 0;
-
-        public Day16(IInputProvider inputProvider) => this.inputProvider = inputProvider;
 
         public long Part1()
         {
