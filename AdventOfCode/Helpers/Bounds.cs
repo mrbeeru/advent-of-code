@@ -16,5 +16,15 @@
         {
             return Within(matrix, index.row, index.col);
         }
+
+        public static bool Within<T>(this Coords2D index, T[][] matrix)
+        {
+            return Within(matrix, index.X, index.Y);
+        }
+
+        public static bool Within<T>(this Coords2D index, T[,] matrix)
+        {
+            return Within(matrix.GetLength(1), matrix.GetLength(0), index.X, index.Y);
+        }
     }
 }
