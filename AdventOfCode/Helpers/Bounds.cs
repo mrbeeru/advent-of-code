@@ -26,5 +26,15 @@
         {
             return Within(matrix.GetLength(1), matrix.GetLength(0), index.X, index.Y);
         }
+
+        public static bool Within(this long value, long a, long b)
+        {
+            return value > Math.Min(a, b) && value < Math.Max(a, b);
+        }
+
+        public static bool Within(this int value, int a, int b)
+        {
+            return Within((long)value, a, b);
+        }
     }
 }
