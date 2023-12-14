@@ -4,13 +4,47 @@ using AdventOfCode.Reader;
 namespace AdventOfCode.Quizzes.Y2023
 {
     [Aoc(year: 2023, day: 14)]
-    public class Day14(IInputProvider inputProvider) : IPartOne<long>
+    public class Day14(IInputProvider inputProvider) : IPartOne<long>, IPartTwo<long>
     {
         public long Part1()
         {
             var matrix = inputProvider.GetInput().Select(x => x.ToArray()).ToArray();
             Tilt(matrix, Coords2D.Up);
             return Sum(matrix);
+        }
+
+        // It's possible to do this manually, it's in the first ~200 iterations
+        public long Part2()
+        {
+            var matrix = inputProvider.GetInput().Select(x => x.ToArray()).ToArray();
+            var seen = new List<(int, int)>();
+
+            Cycle(matrix);
+            var prev = Sum(matrix);
+
+            while (true)
+            {
+                Cycle(matrix);
+                var current = Sum(matrix);
+
+                if (seen.Contains((prev, current)))
+                {
+                    var cycleLen = seen.Count - seen.IndexOf((prev, current));
+                    var cycleStart = seen.IndexOf((prev, current));
+                    return seen[(1_000_000_000 - cycleStart) % cycleLen + cycleStart - 1].Item1;
+                }
+
+                seen.Add((prev, current));
+                prev = current;
+            }
+        }
+
+        static void Cycle(char[][] matrix)
+        {
+            Tilt(matrix, Coords2D.Up);
+            Tilt(matrix, Coords2D.Left);
+            Tilt(matrix, Coords2D.Down);
+            Tilt(matrix, Coords2D.Right);
         }
 
         static void Tilt(char[][] matrix, Coords2D dir)
