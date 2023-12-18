@@ -40,31 +40,27 @@ namespace AdventOfCode.Quizzes.Y2023
                 var (hlines1, vlines1) = GetPotentialLines(mirror);
                 var (hlines2, vlines2) = GetPotentialLines(mirror, 1);
 
-                if (hlines2.Count > hlines1.Count)
+                hlines2 = hlines2.Where(x => VerifyHLine(x, mirror, 1)).ToList();
+                vlines2 = vlines2.Where(x => VerifyVLine(x, mirror, 1)).ToList();
+
+                if (hlines2.Count == 2)
                 {
                     hlines2 = hlines2.Except(hlines1).ToList();
                 }
 
-                if (vlines2.Count > vlines1.Count)
+                if (vlines2.Count == 2)
                 {
                     vlines2 = vlines2.Except(vlines1).ToList();
                 }
 
-                //var hlines = hlines2.Except(hlines1);
-                //var vlines = vlines2.Except(vlines1);
-
-                var a = hlines2.Where(x => VerifyHLine(x, mirror, 1)).ToList();
-                var b = vlines2.Where(x => VerifyVLine(x, mirror, 1)).ToList();
-
-
-                if (a.Any())
+                if (hlines2.Count > 0)
                 {
-                    sum += 100 * (a.First() + 1);
+                    sum += 100 * (hlines2.First() + 1);
                 }
 
-                if (b.Any())
+                if (vlines2.Count > 0)
                 {
-                    sum += (b.First() + 1);
+                    sum += (vlines2.First() + 1);
                 }
             }
 
@@ -102,27 +98,24 @@ namespace AdventOfCode.Quizzes.Y2023
                 {
                     return flips == numFlips;
                 }
-
             }
         }
 
-        static bool VerifyVLine(int line, char[][] matrix, int flips = 0)
+        static bool VerifyVLine(int line, char[][] matrix, int maxDiffs = 0)
         {
             int offset = 0;
-            int numFlips = 0;
+            int diffs = 0;
 
             while (true)
             {
-
-
                 for (int j = 0; j < matrix.Length; j++)
                 {
                     if (matrix[j][line + offset + 1] != matrix[j][line - offset])
                     {
-                        numFlips++;
+                        diffs++;
                     }
 
-                    if (numFlips > flips)
+                    if (diffs > maxDiffs)
                     {
                         return false;
                     }
@@ -130,29 +123,28 @@ namespace AdventOfCode.Quizzes.Y2023
 
                 offset++;
 
-
                 if (line + offset + 1 == matrix[0].Length)
                 {
-                    return flips == numFlips;
+                    return diffs == maxDiffs;
                 }
 
                 if (line - offset == -1)
                 {
-                    return flips == numFlips;
+                    return diffs == maxDiffs;
                 }
             }
         }
 
-        static (List<int> hLines, List<int> vLines) GetPotentialLines(char[][] mirror, int allowedDiffs = 0)
+        static (List<int> hLines, List<int> vLines) GetPotentialLines(char[][] mirror, int maxDiffs = 0)
         {
             var hLines = new List<int>();
             var vLines = new List<int>();
 
+            // check horizontal
             for (var i = 0; i < mirror.Length - 1; i++)
             {
                 var diffs = 0;
 
-                // check horizontal
                 for (var j = 0; j < mirror[i].Length; j++)
                 {
 
@@ -162,14 +154,14 @@ namespace AdventOfCode.Quizzes.Y2023
                     }
                 }
 
-                if (diffs <= allowedDiffs)
+                if (diffs <= maxDiffs)
                     hLines.Add(i);
             }
 
+            // check vertical
             for (var i = 0; i < mirror[0].Length - 1; i++)
             {
                 var diffs = 0;
-                // check vertical
                 for (var j = 0; j < mirror.Length; j++)
                 {
 
@@ -179,7 +171,7 @@ namespace AdventOfCode.Quizzes.Y2023
                     }
                 }
 
-                if (diffs <= allowedDiffs)
+                if (diffs <= maxDiffs)
                     vLines.Add(i);
             }
 
