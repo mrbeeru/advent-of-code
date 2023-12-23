@@ -8,7 +8,7 @@ namespace AdventOfCode.Test.Y2023
         public void Part1()
         {
             var day = new Day12(InputProvider);
-            Assert.Equal(405, day.Part1());
+            Assert.Equal(21, day.Part1());
         }
 
         protected override string[] AocInput()

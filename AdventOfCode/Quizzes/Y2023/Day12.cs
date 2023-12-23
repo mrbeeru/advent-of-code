@@ -4,7 +4,7 @@ using AdventOfCode.Reader;
 namespace AdventOfCode.Quizzes.Y2023
 {
     [Aoc(year: 2023, day: 12)]
-    public class Day12(IInputProvider inputProvider) : IPartOne<long>
+    public class Day12(IInputProvider inputProvider) : IPartOne<long>, IPartTwo<long>
     {
         private record Spring(char[] Layout, int[] Groups);
 
@@ -12,12 +12,30 @@ namespace AdventOfCode.Quizzes.Y2023
         {
             var input = inputProvider.GetInput().Select(x => new Spring([.. x.Split(" ")[0]], x.Split(" ")[1].Nums().ToArray())).ToList();
             var sum = 0;
+            var sum2 = 0;
 
-            input.ForEach(x => Recurse(x.Layout, 0, x.Groups, 0, ref sum));
+            input.ForEach(x => Recurse(x.Layout, 0, x.Groups, 0, ref sum, ref sum2));
             return sum;
         }
 
-        static void Recurse(char[] input, int index, int[] nums, int numIndex, ref int sum)
+        public long Part2()
+        {
+            var input = inputProvider.GetInput().Select(x => new Spring([.. x.Split(" ")[0]], x.Split(" ")[1].Nums().ToArray())).ToList();
+            var sum = 0;
+            var test = 0;
+
+            foreach (var spring in input)
+            {
+                char[] layoutUnfolded = [.. spring.Layout, '?', .. spring.Layout, '?', .. spring.Layout, '?', .. spring.Layout, '?', .. spring.Layout];
+                int[] groupUnfolded = [.. spring.Groups, .. spring.Groups, .. spring.Groups, .. spring.Groups, .. spring.Groups];
+                Console.WriteLine(string.Join("", spring.Layout));
+                Recurse(layoutUnfolded, 0, groupUnfolded, 0, ref sum, ref test);
+            }
+
+            return sum;
+        }
+
+        static void Recurse(char[] input, int index, int[] nums, int numIndex, ref int sum, ref int maxNumIndex)
         {
             // skip spaces;
             while (index < input.Length && input[index] == '.')
@@ -28,16 +46,16 @@ namespace AdventOfCode.Quizzes.Y2023
                 return;
 
             if (input[index] == '?')
-                Recurse(input, index + 1, nums, numIndex, ref sum);
+                Recurse(input, index + 1, nums, numIndex, ref sum, ref maxNumIndex);
 
             var num = nums[numIndex];
 
+            // bad, outside
+            if (num + index >  input.Length)
+                return;
+
             for (int i = 0; i < num; i++)
             {
-                // bad, outside
-                if (i + index >=  input.Length)
-                    return;
-
                 //bad, need to place #
                 if (input[i + index] == '.')
                     return;
@@ -67,7 +85,7 @@ namespace AdventOfCode.Quizzes.Y2023
             }
 
             // pick next num
-            Recurse(input, index + 1, nums, numIndex + 1, ref sum);
+            Recurse(input, index + 1, nums, numIndex + 1, ref sum, ref maxNumIndex);
         }
     }
 }
